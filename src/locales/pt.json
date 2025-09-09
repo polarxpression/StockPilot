@@ -24,8 +24,9 @@
   "Export as PDF": "Exportar como PDF",
   "All Good!": "Tudo Certo!",
   "No items currently require restocking.": "Nenhum item precisa de reposição no momento.",
-  "Name": "Nome",
+  "Brand": "Marca",
   "Model": "Modelo",
+  "Color": "Cor",
   "Current Stock": "Estoque Atual",
   "Reorder Threshold": "Limite de Reposição",
   "Status": "Status",
@@ -53,6 +54,5 @@
   "e.g., Black": "ex., Preto",
   "Image URL": "URL da Imagem",
   "Save Changes": "Salvar Alterações",
-  "Brand": "Marca",
-  "Color": "Cor"
+  "Quantity to Reorder": "Quantidade para Repor"
 }

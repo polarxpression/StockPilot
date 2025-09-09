@@ -3,17 +3,13 @@
 
 import Image from "next/image";
 import { Package } from "lucide-react";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import type { Cartridge } from "@/lib/data";
 import { useI18n } from "@/contexts/i18n-provider";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 
 interface RestockReportTableProps {
   cartridges: Cartridge[];
@@ -24,60 +20,31 @@ export default function RestockReportTable({
 }: RestockReportTableProps) {
   const { t } = useI18n();
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-16 hidden sm:table-cell">
-              {t("Image")}
-            </TableHead>
-            <TableHead>{t("Brand")}</TableHead>
-            <TableHead>{t("Model")}</TableHead>
-            <TableHead>{t("Color")}</TableHead>
-            <TableHead className="text-center">{t("Current Stock")}</TableHead>
-            <TableHead className="text-center">
-              {t("Reorder Threshold")}
-            </TableHead>
-            <TableHead className="text-center">{t("Status")}</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {cartridges.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="hidden sm:table-cell">
-                <div className="flex h-12 w-12 items-center justify-center rounded-md bg-muted">
-                  {item.imageUrl ? (
-                    <Image
-                      src={item.imageUrl}
-                      alt={`${item.brand} ${item.model}`}
-                      width={48}
-                      height={48}
-                      className="h-full w-full rounded-md object-cover"
-                      data-ai-hint="ink cartridge"
-                    />
-                  ) : (
-                    <Package className="h-6 w-6 text-muted-foreground" />
-                  )}
-                </div>
-              </TableCell>
-              <TableCell className="font-medium">{item.brand}</TableCell>
-              <TableCell className="text-muted-foreground">
-                {item.model}
-              </TableCell>
-              <TableCell>{item.color}</TableCell>
-              <TableCell className="text-center font-bold text-destructive">
-                {item.stock}
-              </TableCell>
-              <TableCell className="text-center text-muted-foreground">
-                {item.reorderThreshold}
-              </TableCell>
-              <TableCell className="text-center">
-                <Badge variant="destructive">{t("Low Stock")}</Badge>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      {cartridges.map((item) => (
+        <Card key={item.id} className="overflow-hidden">
+          <CardContent className="p-0">
+            <div className="aspect-square w-full bg-muted flex items-center justify-center">
+              {item.imageUrl ? (
+                <Image
+                  src={item.imageUrl}
+                  alt={`${item.brand} ${item.model}`}
+                  width={200}
+                  height={200}
+                  className="h-full w-full object-contain"
+                  data-ai-hint="ink cartridge"
+                />
+              ) : (
+                <Package className="h-12 w-12 text-muted-foreground" />
+              )}
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col items-center justify-center p-4">
+            <p className="text-sm text-muted-foreground">{t("Quantity to Reorder")}</p>
+            <p className="text-2xl font-bold">{item.reorderThreshold * 2}</p>
+          </CardFooter>
+        </Card>
+      ))}
     </div>
   );
 }

@@ -24,8 +24,9 @@
   "Export as PDF": "Export as PDF",
   "All Good!": "All Good!",
   "No items currently require restocking.": "No items currently require restocking.",
-  "Name": "Name",
+  "Brand": "Brand",
   "Model": "Model",
+  "Color": "Color",
   "Current Stock": "Current Stock",
   "Reorder Threshold": "Reorder Threshold",
   "Status": "Status",
@@ -53,6 +54,5 @@
   "e.g., Black": "e.g., Black",
   "Image URL": "Image URL",
   "Save Changes": "Save Changes",
-  "Brand": "Brand",
-  "Color": "Color"
+  "Quantity to Reorder": "Quantity to Reorder"
 }
