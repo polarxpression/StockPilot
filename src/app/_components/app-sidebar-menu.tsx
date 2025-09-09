@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BrainCircuit, Boxes, LayoutDashboard } from "lucide-react";
+import { Boxes, LayoutDashboard } from "lucide-react";
 
 import { useI18n } from "@/contexts/i18n-provider";
 import {
@@ -26,17 +26,6 @@ export default function AppSidebarMenu() {
           <Link href="/inventory">
             <Boxes />
             <span>{t("Inventory")}</span>
-          </Link>
-        </SidebarMenuButton>
-      </SidebarMenuItem>
-      <SidebarMenuItem>
-        <SidebarMenuButton
-          asChild
-          tooltip={{ children: t("AI-Powered Insights") }}
-        >
-          <Link href="/ai-insights">
-            <BrainCircuit />
-            <span>{t("AI-Powered Insights")}</span>
           </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>

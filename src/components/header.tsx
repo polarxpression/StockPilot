@@ -12,14 +12,11 @@ export default function Header() {
   const pageTitles: { [key: string]: string } = {
     "/": t("Dashboard"),
     "/inventory": t("Inventory"),
-    "/ai-insights": t("AI-Powered Insights"),
   };
   
   const pageDescriptions: { [key: string]: string } = {
     "/": t("An overview of your cartridge inventory."),
     "/inventory": t("Manage your cartridge inventory and reorder thresholds."),
-    "/ai-insights":
-      t("Generate predictive restock alerts using AI analysis of your usage patterns."),
   };
 
   const title = pageTitles[pathname] || "StockPilot";
