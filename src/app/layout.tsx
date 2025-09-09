@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BrainCircuit, Boxes, LayoutDashboard, PanelLeft } from "lucide-react";
+import { BrainCircuit, Boxes, LayoutDashboard } from "lucide-react";
 
 import "./globals.css";
 import {
@@ -18,7 +18,8 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { Logo } from "@/components/logo";
 import { CartridgeDataProvider } from "@/contexts/cartridge-data-provider";
-import { Button } from "@/components/ui/button";
+import { AppProviders } from "@/components/app-providers";
+import Settings from "@/components/settings";
 
 export const metadata: Metadata = {
   title: "StockPilot",
@@ -41,61 +42,64 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <CartridgeDataProvider>
-          <SidebarProvider>
-            <Sidebar>
-              <SidebarHeader>
-                <div className="flex items-center gap-2 p-2">
-                  <Logo />
-                  <SidebarTrigger className="ml-auto" />
-                </div>
-              </SidebarHeader>
-              <SidebarContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      asChild
-                      tooltip={{ children: "Dashboard" }}
-                    >
-                      <Link href="/">
-                        <LayoutDashboard />
-                        <span>Dashboard</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      asChild
-                      tooltip={{ children: "Inventory" }}
-                    >
-                      <Link href="/inventory">
-                        <Boxes />
-                        <span>Inventory</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      asChild
-                      tooltip={{ children: "AI Insights" }}
-                    >
-                      <Link href="/ai-insights">
-                        <BrainCircuit />
-                        <span>AI Insights</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarContent>
-              <SidebarFooter>
-              </SidebarFooter>
-            </Sidebar>
-            <SidebarInset>
-              <main className="p-4 md:p-6 lg:p-8">{children}</main>
-            </SidebarInset>
-          </SidebarProvider>
-          <Toaster />
-        </CartridgeDataProvider>
+        <AppProviders>
+          <CartridgeDataProvider>
+            <SidebarProvider>
+              <Sidebar>
+                <SidebarHeader>
+                  <div className="flex items-center gap-2 p-2">
+                    <Logo />
+                    <SidebarTrigger className="ml-auto" />
+                  </div>
+                </SidebarHeader>
+                <SidebarContent>
+                  <SidebarMenu>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        tooltip={{ children: "Dashboard" }}
+                      >
+                        <Link href="/">
+                          <LayoutDashboard />
+                          <span>Dashboard</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        tooltip={{ children: "Inventory" }}
+                      >
+                        <Link href="/inventory">
+                          <Boxes />
+                          <span>Inventory</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        tooltip={{ children: "AI Insights" }}
+                      >
+                        <Link href="/ai-insights">
+                          <BrainCircuit />
+                          <span>AI Insights</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </SidebarMenu>
+                </SidebarContent>
+                <SidebarFooter>
+                  <Settings />
+                </SidebarFooter>
+              </Sidebar>
+              <SidebarInset>
+                <main className="p-4 md:p-6 lg:p-8">{children}</main>
+              </SidebarInset>
+            </SidebarProvider>
+            <Toaster />
+          </CartridgeDataProvider>
+        </AppProviders>
       </body>
     </html>
   );
