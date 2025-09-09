@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -23,45 +24,40 @@ interface I18nContextType {
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
-// Custom hook to persist state to localStorage
-function useLocalStorage<T>(
-  key: string,
-  initialValue: T
-): [T, (value: T) => void] {
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    if (typeof window === "undefined") {
-      return initialValue;
-    }
-    try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.error(error);
-      return initialValue;
-    }
-  });
-
-  const setValue = (value: T) => {
-    try {
-      setStoredValue(value);
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem(key, JSON.stringify(value));
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  return [storedValue, setValue];
+function getInitialLocale(): Locale {
+  if (typeof window === "undefined") {
+    return "en";
+  }
+  const savedLocale = window.localStorage.getItem("locale");
+  return savedLocale === '"pt"' ? "pt" : "en";
 }
 
+
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useLocalStorage<Locale>("locale", "en");
+  const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const savedLocale = localStorage.getItem("locale");
+    if (savedLocale) {
+      const parsedLocale = JSON.parse(savedLocale) as Locale;
+      if (parsedLocale !== locale) {
+        setLocaleState(parsedLocale);
+      }
+    }
+  }, [locale]);
+  
+  const setLocale = (newLocale: Locale) => {
+      setLocaleState(newLocale);
+      localStorage.setItem("locale", JSON.stringify(newLocale));
+  };
 
   const t = useCallback(
     (key: string) => {
+      const currentLocale = isMounted ? locale : 'en';
       const keys = key.split(".");
-      let result: any = translations[locale];
+      let result: any = translations[currentLocale];
       for (const k of keys) {
         result = result?.[k];
         if (result === undefined) {
@@ -75,8 +71,12 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       }
       return result || key;
     },
-    [locale]
+    [locale, isMounted]
   );
+  
+  if (!isMounted) {
+      return null;
+  }
 
   return (
     <I18nContext.Provider value={{ locale, setLocale, t }}>
