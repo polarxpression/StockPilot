@@ -24,12 +24,12 @@ export default function Header() {
 
   return (
     <header className="flex items-center justify-between border-b p-4 md:p-6 lg:p-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
-        {description && <p className="text-muted-foreground">{description}</p>}
-      </div>
-      <div className="md:hidden">
+      <div className="flex items-center gap-4">
         <SidebarTrigger />
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+          {description && <p className="text-muted-foreground">{description}</p>}
+        </div>
       </div>
     </header>
   );
