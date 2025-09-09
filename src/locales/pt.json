@@ -52,6 +52,8 @@
   "Enter the details for the new cartridge.": "Insira os detalhes do novo cartucho.",
   "e.g., Black Ink": "ex., Tinta Preta",
   "e.g., HP 63XL": "ex., HP 63XL",
+  "e.g., HP": "ex., HP",
+  "e.g., Black": "ex., Preto",
   "Image URL": "URL da Imagem",
   "Save Changes": "Salvar Alterações",
   "Input Data": "Dados de Entrada",
@@ -66,5 +68,7 @@
   "Ready to Analyze": "Pronto para Analisar",
   "Click \"Generate Report\" to get your AI-powered insights.": "Clique em \"Gerar Relatório\" para obter seus insights de IA.",
   "Error Generating Report": "Erro ao Gerar Relatório",
-  "An unexpected error occurred. Please try again.": "Ocorreu um erro inesperado. Por favor, tente novamente."
+  "An unexpected error occurred. Please try again.": "Ocorreu um erro inesperado. Por favor, tente novamente.",
+  "Brand": "Marca",
+  "Color": "Cor"
 }

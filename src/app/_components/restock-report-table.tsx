@@ -25,8 +25,9 @@ export default function RestockReportTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>{t("Name")}</TableHead>
+            <TableHead>{t("Brand")}</TableHead>
             <TableHead>{t("Model")}</TableHead>
+            <TableHead>{t("Color")}</TableHead>
             <TableHead className="text-center">{t("Current Stock")}</TableHead>
             <TableHead className="text-center">{t("Reorder Threshold")}</TableHead>
             <TableHead className="text-center">{t("Status")}</TableHead>
@@ -35,8 +36,9 @@ export default function RestockReportTable({
         <TableBody>
           {cartridges.map((item) => (
             <TableRow key={item.id}>
-              <TableCell className="font-medium">{item.name}</TableCell>
+              <TableCell className="font-medium">{item.brand}</TableCell>
               <TableCell className="text-muted-foreground">{item.model}</TableCell>
+              <TableCell>{item.color}</TableCell>
               <TableCell className="text-center font-bold text-destructive">
                 {item.stock}
               </TableCell>

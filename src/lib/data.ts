@@ -1,7 +1,8 @@
 export interface Cartridge {
   id: string;
-  name: string;
+  brand: string;
   model: string;
+  color: string;
   stock: number;
   reorderThreshold: number;
   lastUpdated: Date;
@@ -11,8 +12,9 @@ export interface Cartridge {
 export const initialCartridges: Cartridge[] = [
   {
     id: "1",
-    name: "Black Ink",
-    model: "HP 63XL",
+    brand: "HP",
+    model: "63XL",
+    color: "Black",
     stock: 5,
     reorderThreshold: 10,
     lastUpdated: new Date("2023-10-26T10:00:00Z"),
@@ -20,8 +22,9 @@ export const initialCartridges: Cartridge[] = [
   },
   {
     id: "2",
-    name: "Color Ink",
-    model: "HP 63",
+    brand: "HP",
+    model: "63",
+    color: "Tri-Color",
     stock: 12,
     reorderThreshold: 10,
     lastUpdated: new Date("2023-10-25T14:30:00Z"),
@@ -29,8 +32,9 @@ export const initialCartridges: Cartridge[] = [
   },
   {
     id: "3",
-    name: "High-Yield Black",
-    model: "Canon PG-245XL",
+    brand: "Canon",
+    model: "PG-245XL",
+    color: "Black High-Yield",
     stock: 18,
     reorderThreshold: 15,
     lastUpdated: new Date("2023-10-24T09:00:00Z"),
@@ -38,8 +42,9 @@ export const initialCartridges: Cartridge[] = [
   },
   {
     id: "4",
-    name: "Standard Cyan",
-    model: "Epson 288",
+    brand: "Epson",
+    model: "288",
+    color: "Cyan",
     stock: 3,
     reorderThreshold: 5,
     lastUpdated: new Date("2023-10-27T11:00:00Z"),
@@ -47,8 +52,9 @@ export const initialCartridges: Cartridge[] = [
   },
   {
     id: "5",
-    name: "Toner",
-    model: "Brother TN760",
+    brand: "Brother",
+    model: "TN760",
+    color: "Toner",
     stock: 8,
     reorderThreshold: 5,
     lastUpdated: new Date("2023-10-22T16:00:00Z"),

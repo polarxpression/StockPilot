@@ -52,6 +52,8 @@
   "Enter the details for the new cartridge.": "Enter the details for the new cartridge.",
   "e.g., Black Ink": "e.g., Black Ink",
   "e.g., HP 63XL": "e.g., HP 63XL",
+  "e.g., HP": "e.g., HP",
+  "e.g., Black": "e.g., Black",
   "Image URL": "Image URL",
   "Save Changes": "Save Changes",
   "Input Data": "Input Data",
@@ -66,5 +68,7 @@
   "Ready to Analyze": "Ready to Analyze",
   "Click \"Generate Report\" to get your AI-powered insights.": "Click \"Generate Report\" to get your AI-powered insights.",
   "Error Generating Report": "Error Generating Report",
-  "An unexpected error occurred. Please try again.": "An unexpected error occurred. Please try again."
+  "An unexpected error occurred. Please try again.": "An unexpected error occurred. Please try again.",
+  "Brand": "Brand",
+  "Color": "Color"
 }

@@ -38,8 +38,9 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-16 hidden sm:table-cell">{t("Image")}</TableHead>
-              <TableHead>{t("Name")}</TableHead>
+              <TableHead>{t("Brand")}</TableHead>
               <TableHead>{t("Model")}</TableHead>
+              <TableHead>{t("Color")}</TableHead>
               <TableHead>{t("Stock")}</TableHead>
               <TableHead className="hidden md:table-cell">
                 {t("Threshold")}
@@ -59,7 +60,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
                     {item.imageUrl ? (
                       <Image
                         src={item.imageUrl}
-                        alt={item.name}
+                        alt={`${item.brand} ${item.model}`}
                         width={48}
                         height={48}
                         className="h-full w-full rounded-md object-cover"
@@ -71,14 +72,17 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">
+                     {item.brand}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">{item.model}</TableCell>
+                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
-                       {item.name}
+                       {item.color}
                        {item.stock <= item.reorderThreshold && (
                         <Badge variant="destructive" className="hidden sm:inline-flex">{t("Low")}</Badge>
                        )}
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{item.model}</TableCell>
                   <TableCell>
                     <UpdateStockForm cartridge={item} />
                   </TableCell>
@@ -98,7 +102,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center">
+                <TableCell colSpan={8} className="h-24 text-center">
                   {t("No cartridges found.")}
                 </TableCell>
               </TableRow>
