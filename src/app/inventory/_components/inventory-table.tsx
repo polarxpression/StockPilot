@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
+import Image from "next/image";
 import {
   Table,
   TableHeader,
@@ -16,6 +17,7 @@ import { useCartridgeData } from "@/contexts/cartridge-data-provider";
 import InventoryTableActions from "./inventory-table-actions";
 import AddEditCartridgeDialog from "./add-edit-cartridge-dialog";
 import UpdateStockForm from "./update-stock-form";
+import { Package } from "lucide-react";
 
 interface InventoryTableProps {
   cartridges: Cartridge[];
@@ -33,6 +35,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-16 hidden sm:table-cell">Image</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Model</TableHead>
               <TableHead>Stock</TableHead>
@@ -49,6 +52,22 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
             {cartridges.length > 0 ? (
               cartridges.map((item) => (
                 <TableRow key={item.id}>
+                  <TableCell className="hidden sm:table-cell">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-md bg-muted">
+                    {item.imageUrl ? (
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.name}
+                        width={48}
+                        height={48}
+                        className="h-full w-full rounded-md object-cover"
+                        data-ai-hint="ink cartridge"
+                      />
+                    ) : (
+                      <Package className="h-6 w-6 text-muted-foreground" />
+                    )}
+                    </div>
+                  </TableCell>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
                        {item.name}
@@ -77,7 +96,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={6} className="h-24 text-center">
+                <TableCell colSpan={7} className="h-24 text-center">
                   No cartridges found.
                 </TableCell>
               </TableRow>

@@ -15,7 +15,7 @@ type CartridgeDataContextType = {
   cartridges: Cartridge[];
   setCartridges: Dispatch<SetStateAction<Cartridge[]>>;
   addCartridge: (cartridge: Omit<Cartridge, "id" | "lastUpdated">) => void;
-  updateCartridge: (id: string, updatedCartridge: Partial<Cartridge>) => void;
+  updateCartridge: (id: string, updatedCartridge: Partial<Omit<Cartridge, 'id' | 'lastUpdated'>>) => void;
   deleteCartridge: (id: string) => void;
   updateStock: (id: string, newStock: number) => void;
 };
@@ -77,7 +77,7 @@ export function CartridgeDataProvider({ children }: { children: ReactNode }) {
     setCartridges((prev) => [...prev, newCartridge]);
   };
 
-  const updateCartridge = (id: string, updatedCartridge: Partial<Cartridge>) => {
+  const updateCartridge = (id: string, updatedCartridge: Partial<Omit<Cartridge, 'id' | 'lastUpdated'>>) => {
     setCartridges((prev) =>
       prev.map((c) =>
         c.id === id ? { ...c, ...updatedCartridge, lastUpdated: new Date() } : c

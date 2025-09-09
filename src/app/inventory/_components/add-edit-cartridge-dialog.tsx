@@ -48,6 +48,7 @@ export default function AddEditCartridgeDialog({
       model: "",
       stock: 0,
       reorderThreshold: 0,
+      imageUrl: "",
     },
   });
 
@@ -60,6 +61,7 @@ export default function AddEditCartridgeDialog({
         model: "",
         stock: 0,
         reorderThreshold: 10,
+        imageUrl: "",
       });
     }
   }, [cartridge, form, open]);
@@ -109,6 +111,19 @@ export default function AddEditCartridgeDialog({
                   <FormLabel>Model</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g., HP 63XL" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="imageUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Image URL</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., https://example.com/image.png" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

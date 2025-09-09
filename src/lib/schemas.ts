@@ -13,4 +13,5 @@ export const cartridgeSchema = z.object({
   reorderThreshold: z.coerce.number().int().min(0, {
     message: "Threshold must be a non-negative number.",
   }),
+  imageUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
 });

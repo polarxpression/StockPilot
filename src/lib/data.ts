@@ -5,6 +5,7 @@ export interface Cartridge {
   stock: number;
   reorderThreshold: number;
   lastUpdated: Date;
+  imageUrl?: string;
 }
 
 export const initialCartridges: Cartridge[] = [
@@ -15,6 +16,7 @@ export const initialCartridges: Cartridge[] = [
     stock: 5,
     reorderThreshold: 10,
     lastUpdated: new Date("2023-10-26T10:00:00Z"),
+    imageUrl: "https://picsum.photos/100/100?random=1",
   },
   {
     id: "2",
@@ -23,6 +25,7 @@ export const initialCartridges: Cartridge[] = [
     stock: 12,
     reorderThreshold: 10,
     lastUpdated: new Date("2023-10-25T14:30:00Z"),
+    imageUrl: "https://picsum.photos/100/100?random=2",
   },
   {
     id: "3",
@@ -31,6 +34,7 @@ export const initialCartridges: Cartridge[] = [
     stock: 18,
     reorderThreshold: 15,
     lastUpdated: new Date("2023-10-24T09:00:00Z"),
+    imageUrl: "https://picsum.photos/100/100?random=3",
   },
   {
     id: "4",
@@ -39,6 +43,7 @@ export const initialCartridges: Cartridge[] = [
     stock: 3,
     reorderThreshold: 5,
     lastUpdated: new Date("2023-10-27T11:00:00Z"),
+    imageUrl: "https://picsum.photos/100/100?random=4",
   },
   {
     id: "5",
@@ -47,6 +52,7 @@ export const initialCartridges: Cartridge[] = [
     stock: 8,
     reorderThreshold: 5,
     lastUpdated: new Date("2023-10-22T16:00:00Z"),
+    imageUrl: "https://picsum.photos/100/100?random=5",
   },
 ];
 
