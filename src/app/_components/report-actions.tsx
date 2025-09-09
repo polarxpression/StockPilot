@@ -24,7 +24,7 @@ interface ReportActionsProps {
 const waitForImages = (element: HTMLElement): Promise<void[]> => {
   const images = Array.from(element.querySelectorAll("img"));
   const promises = images.map((img) => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
       if (img.complete) {
         resolve();
       } else {
@@ -80,7 +80,6 @@ export default function ReportActions({
       scale: 2,
       useCORS: true,
       allowTaint: true,
-      backgroundColor: 'hsl(var(--card))',
     }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const link = document.createElement("a");
@@ -99,7 +98,6 @@ export default function ReportActions({
       scale: 2,
       useCORS: true,
       allowTaint: true,
-      backgroundColor: 'hsl(var(--card))',
     });
     
     const imgData = canvas.toDataURL("image/png");
