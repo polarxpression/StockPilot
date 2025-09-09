@@ -1,3 +1,4 @@
+
 "use client";
 
 import { RefObject } from "react";
@@ -19,6 +20,26 @@ interface ReportActionsProps {
   reportRef: RefObject<HTMLDivElement>;
   disabled?: boolean;
 }
+
+const waitForImages = (element: HTMLElement): Promise<void[]> => {
+  const images = Array.from(element.querySelectorAll("img"));
+  const promises = images.map((img) => {
+    return new Promise<void>((resolve, reject) => {
+      if (img.complete) {
+        resolve();
+      } else {
+        img.onload = () => resolve();
+        img.onerror = () => {
+          // Resolve even on error to not break the entire export
+          console.warn(`Could not load image: ${img.src}`);
+          resolve();
+        };
+      }
+    });
+  });
+  return Promise.all(promises);
+};
+
 
 export default function ReportActions({
   data,
@@ -49,9 +70,18 @@ export default function ReportActions({
     document.body.removeChild(link);
   };
 
-  const handleExportImage = () => {
+  const handleExportImage = async () => {
     if (!reportRef.current) return;
-    html2canvas(reportRef.current).then((canvas) => {
+    
+    // Wait for images to load
+    await waitForImages(reportRef.current);
+    
+    html2canvas(reportRef.current, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: 'hsl(var(--card))',
+    }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const link = document.createElement("a");
       link.href = imgData;
@@ -60,17 +90,25 @@ export default function ReportActions({
     });
   };
 
-  const handleExportPdf = () => {
+  const handleExportPdf = async () => {
     if (!reportRef.current) return;
-    const pdf = new jsPDF("p", "mm", "a4");
-    html2canvas(reportRef.current).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("restock_report.pdf");
+
+    await waitForImages(reportRef.current);
+
+    const canvas = await html2canvas(reportRef.current, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: 'hsl(var(--card))',
     });
+    
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("restock_report.pdf");
   };
 
   return (
