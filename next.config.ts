@@ -28,6 +28,12 @@ const nextConfig: NextConfig = {
         hostname: 'br-media.hptiendaenlinea.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ssl-product-images.www8-hp.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
