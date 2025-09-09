@@ -3,22 +3,25 @@
 
 import { usePathname } from "next/navigation";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-
-const pageTitles: { [key: string]: string } = {
-  "/": "Dashboard",
-  "/inventory": "Inventory",
-  "/ai-insights": "Intelligent Alerting Tool",
-};
-
-const pageDescriptions: { [key: string]: string } = {
-  "/": "An overview of your cartridge inventory.",
-  "/inventory": "Manage your cartridge inventory and reorder thresholds.",
-  "/ai-insights":
-    "Generate predictive restock alerts using AI analysis of your usage patterns.",
-};
+import { useI18n } from "@/contexts/i18n-provider";
 
 export default function Header() {
+  const { t } = useI18n();
   const pathname = usePathname();
+  
+  const pageTitles: { [key: string]: string } = {
+    "/": t("Dashboard"),
+    "/inventory": t("Inventory"),
+    "/ai-insights": t("AI-Powered Insights"),
+  };
+  
+  const pageDescriptions: { [key: string]: string } = {
+    "/": t("An overview of your cartridge inventory."),
+    "/inventory": t("Manage your cartridge inventory and reorder thresholds."),
+    "/ai-insights":
+      t("Generate predictive restock alerts using AI analysis of your usage patterns."),
+  };
+
   const title = pageTitles[pathname] || "StockPilot";
   const description = pageDescriptions[pathname] || "";
 

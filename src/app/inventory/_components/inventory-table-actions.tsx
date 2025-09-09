@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useI18n } from "@/contexts/i18n-provider";
 
 interface InventoryTableActionsProps {
   onEdit: () => void;
@@ -29,6 +30,7 @@ export default function InventoryTableActions({
   onEdit,
   onDelete,
 }: InventoryTableActionsProps) {
+    const { t } = useI18n();
   return (
     <AlertDialog>
       <DropdownMenu>
@@ -41,28 +43,27 @@ export default function InventoryTableActions({
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={onEdit}>
             <Pencil className="mr-2 h-4 w-4" />
-            Edit
+            {t("Edit")}
           </DropdownMenuItem>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem className="text-destructive focus:text-destructive">
               <Trash2 className="mr-2 h-4 w-4" />
-              Delete
+              {t("Delete")}
             </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t("Are you sure?")}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            cartridge from your inventory.
+            {t("This action cannot be undone. This will permanently delete the cartridge from your inventory.")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
           <AlertDialogAction onClick={onDelete} className="bg-destructive hover:bg-destructive/90">
-            Delete
+            {t("Delete")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

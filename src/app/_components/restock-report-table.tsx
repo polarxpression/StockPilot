@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import type { Cartridge } from "@/lib/data";
+import { useI18n } from "@/contexts/i18n-provider";
 
 interface RestockReportTableProps {
   cartridges: Cartridge[];
@@ -18,16 +19,17 @@ interface RestockReportTableProps {
 export default function RestockReportTable({
   cartridges,
 }: RestockReportTableProps) {
+    const { t } = useI18n();
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Model</TableHead>
-            <TableHead className="text-center">Current Stock</TableHead>
-            <TableHead className="text-center">Reorder Threshold</TableHead>
-            <TableHead className="text-center">Status</TableHead>
+            <TableHead>{t("Name")}</TableHead>
+            <TableHead>{t("Model")}</TableHead>
+            <TableHead className="text-center">{t("Current Stock")}</TableHead>
+            <TableHead className="text-center">{t("Reorder Threshold")}</TableHead>
+            <TableHead className="text-center">{t("Status")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -42,7 +44,7 @@ export default function RestockReportTable({
                 {item.reorderThreshold}
               </TableCell>
               <TableCell className="text-center">
-                <Badge variant="destructive">Low Stock</Badge>
+                <Badge variant="destructive">{t("Low Stock")}</Badge>
               </TableCell>
             </TableRow>
           ))}

@@ -16,6 +16,7 @@ import { runGenerateRestockAlerts } from "@/lib/actions";
 import { sampleHistoricalData, sampleReorderThresholds } from "@/lib/data";
 import { Loader2, Sparkles, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/contexts/i18n-provider";
 
 export default function AiClient() {
   const { toast } = useToast();
@@ -23,6 +24,7 @@ export default function AiClient() {
   const [reorderThresholds, setReorderThresholds] = useState(sampleReorderThresholds);
   const [result, setResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useI18n();
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -40,9 +42,9 @@ export default function AiClient() {
     } else {
       toast({
         variant: "destructive",
-        title: "Error Generating Report",
+        title: t("Error Generating Report"),
         description:
-          response.error || "An unexpected error occurred. Please try again.",
+          response.error || t("An unexpected error occurred. Please try again."),
       });
     }
   };
@@ -51,15 +53,14 @@ export default function AiClient() {
     <div className="grid gap-8 lg:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Input Data</CardTitle>
+          <CardTitle>{t("Input Data")}</CardTitle>
           <CardDescription>
-            Provide historical usage data and reorder thresholds. Sample data is
-            pre-filled.
+            {t("Provide historical usage data and reorder thresholds. Sample data is pre-filled.")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="historical-data">Historical Usage Data (CSV Format)</Label>
+            <Label htmlFor="historical-data">{t("Historical Usage Data (CSV Format)")}</Label>
             <Textarea
               id="historical-data"
               value={historicalData}
@@ -69,7 +70,7 @@ export default function AiClient() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="reorder-thresholds">Reorder Thresholds (CSV Format)</Label>
+            <Label htmlFor="reorder-thresholds">{t("Reorder Thresholds (CSV Format)")}</Label>
             <Textarea
               id="reorder-thresholds"
               value={reorderThresholds}
@@ -86,25 +87,25 @@ export default function AiClient() {
             ) : (
               <Sparkles className="mr-2 h-4 w-4" />
             )}
-            Generate Report
+            {t("Generate Report")}
           </Button>
         </CardFooter>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>AI-Generated Report</CardTitle>
+          <CardTitle>{t("AI-Generated Report")}</CardTitle>
           <CardDescription>
-            The analysis of your data will appear here.
+            {t("The analysis of your data will appear here.")}
           </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading && (
             <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
               <Loader2 className="h-10 w-10 animate-spin text-primary" />
-              <h3 className="text-xl font-semibold">Analyzing Data...</h3>
+              <h3 className="text-xl font-semibold">{t("Analyzing Data...")}</h3>
               <p className="text-muted-foreground">
-                The AI is processing your inventory patterns.
+                {t("The AI is processing your inventory patterns.")}
               </p>
             </div>
           )}
@@ -116,8 +117,8 @@ export default function AiClient() {
           {!isLoading && !result && (
              <div className="flex flex-col items-center justify-center gap-4 py-12 text-center text-muted-foreground">
                 <Sparkles className="h-10 w-10" />
-                <h3 className="text-xl font-semibold">Ready to Analyze</h3>
-                <p>Click "Generate Report" to get your AI-powered insights.</p>
+                <h3 className="text-xl font-semibold">{t("Ready to Analyze")}</h3>
+                <p>{t('Click "Generate Report" to get your AI-powered insights.')}</p>
             </div>
           )}
         </CardContent>

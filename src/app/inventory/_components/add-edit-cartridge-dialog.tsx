@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import { useCartridgeData } from "@/contexts/cartridge-data-provider";
 import { cartridgeSchema } from "@/lib/schemas";
 import type { Cartridge } from "@/lib/data";
+import { useI18n } from "@/contexts/i18n-provider";
 
 interface AddEditCartridgeDialogProps {
   open: boolean;
@@ -40,6 +41,7 @@ export default function AddEditCartridgeDialog({
 }: AddEditCartridgeDialogProps) {
   const { addCartridge, updateCartridge } = useCartridgeData();
   const isEditMode = !!cartridge;
+  const { t } = useI18n();
 
   const form = useForm<z.infer<typeof cartridgeSchema>>({
     resolver: zodResolver(cartridgeSchema),
@@ -80,12 +82,12 @@ export default function AddEditCartridgeDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isEditMode ? "Edit Cartridge" : "Add New Cartridge"}
+            {isEditMode ? t("Edit Cartridge") : t("Add New Cartridge")}
           </DialogTitle>
           <DialogDescription>
             {isEditMode
-              ? "Update the details for this cartridge."
-              : "Enter the details for the new cartridge."}
+              ? t("Update the details for this cartridge.")
+              : t("Enter the details for the new cartridge.")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -95,9 +97,9 @@ export default function AddEditCartridgeDialog({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>{t("Name")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Black Ink" {...field} />
+                    <Input placeholder={t("e.g., Black Ink")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,9 +110,9 @@ export default function AddEditCartridgeDialog({
               name="model"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Model</FormLabel>
+                  <FormLabel>{t("Model")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., HP 63XL" {...field} />
+                    <Input placeholder={t("e.g., HP 63XL")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -121,9 +123,9 @@ export default function AddEditCartridgeDialog({
               name="imageUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image URL</FormLabel>
+                  <FormLabel>{t("Image URL")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., https://example.com/image.png" {...field} />
+                    <Input placeholder="https://example.com/image.png" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -135,7 +137,7 @@ export default function AddEditCartridgeDialog({
                 name="stock"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Current Stock</FormLabel>
+                    <FormLabel>{t("Current Stock")}</FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
@@ -148,7 +150,7 @@ export default function AddEditCartridgeDialog({
                 name="reorderThreshold"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Reorder Threshold</FormLabel>
+                    <FormLabel>{t("Reorder Threshold")}</FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
@@ -163,9 +165,9 @@ export default function AddEditCartridgeDialog({
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t("Cancel")}
               </Button>
-              <Button type="submit">{isEditMode ? "Save Changes" : "Add Cartridge"}</Button>
+              <Button type="submit">{isEditMode ? t("Save Changes") : t("Add Cartridge")}</Button>
             </DialogFooter>
           </form>
         </Form>

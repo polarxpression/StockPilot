@@ -20,6 +20,7 @@ import { CartridgeDataProvider } from "@/contexts/cartridge-data-provider";
 import { AppProviders } from "@/components/app-providers";
 import Settings from "@/components/settings";
 import Header from "@/components/header";
+import { useI18n } from "@/contexts/i18n-provider";
 
 export const metadata: Metadata = {
   title: "StockPilot",
@@ -51,39 +52,7 @@ export default function RootLayout({
                 </SidebarHeader>
                 <SidebarContent>
                   <SidebarMenu>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        asChild
-                        tooltip={{ children: "Dashboard" }}
-                      >
-                        <Link href="/">
-                          <LayoutDashboard />
-                          <span>Dashboard</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        asChild
-                        tooltip={{ children: "Inventory" }}
-                      >
-                        <Link href="/inventory">
-                          <Boxes />
-                          <span>Inventory</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        asChild
-                        tooltip={{ children: "AI Insights" }}
-                      >
-                        <Link href="/ai-insights">
-                          <BrainCircuit />
-                          <span>AI Insights</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
+                    <AppSidebarMenu />
                   </SidebarMenu>
                 </SidebarContent>
                 <SidebarFooter>
@@ -101,4 +70,45 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+
+function AppSidebarMenu() {
+    const { t } = useI18n();
+    return (
+        <>
+            <SidebarMenuItem>
+                <SidebarMenuButton
+                    asChild
+                    tooltip={{ children: t("Dashboard") }}
+                >
+                    <Link href="/">
+                        <LayoutDashboard />
+                        <span>{t("Dashboard")}</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+                <SidebarMenuButton
+                    asChild
+                    tooltip={{ children: t("Inventory") }}
+                >
+                    <Link href="/inventory">
+                        <Boxes />
+                        <span>{t("Inventory")}</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+                <SidebarMenuButton
+                    asChild
+                    tooltip={{ children: t("AI-Powered Insights") }}
+                >
+                    <Link href="/ai-insights">
+                        <BrainCircuit />
+                        <span>{t("AI-Powered Insights")}</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+        </>
+    )
 }

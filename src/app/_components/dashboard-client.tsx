@@ -11,10 +11,12 @@ import {
 import { BarChart, Package, AlertCircle } from "lucide-react";
 import RestockReportTable from "./restock-report-table";
 import ReportActions from "./report-actions";
+import { useI18n } from "@/contexts/i18n-provider";
 
 export default function DashboardClient() {
   const { cartridges } = useCartridgeData();
   const reportRef = useRef<HTMLDivElement>(null);
+  const { t } = useI18n();
 
   const stats = useMemo(() => {
     const totalStock = cartridges.reduce((sum, item) => sum + item.stock, 0);
@@ -39,42 +41,42 @@ export default function DashboardClient() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Cartridge Types
+              {t("Total Cartridge Types")}
             </CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalTypes}</div>
             <p className="text-xs text-muted-foreground">
-              Different models in inventory
+              {t("Different models in inventory")}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Stock Level
+              {t("Total Stock Level")}
             </CardTitle>
             <BarChart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalStock}</div>
             <p className="text-xs text-muted-foreground">
-              Sum of all cartridges in stock
+              {t("Sum of all cartridges in stock")}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Needs Reordering
+              {t("Needs Reordering")}
             </CardTitle>
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.lowStockItems}</div>
             <p className="text-xs text-muted-foreground">
-              Items at or below threshold
+              {t("Items at or below threshold")}
             </p>
           </CardContent>
         </Card>
@@ -84,9 +86,9 @@ export default function DashboardClient() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <CardTitle>Restock Report</CardTitle>
+              <CardTitle>{t("Restock Report")}</CardTitle>
               <p className="text-muted-foreground mt-1">
-                These items are below their reorder threshold.
+                {t("These items are below their reorder threshold.")}
               </p>
             </div>
             <ReportActions
@@ -104,9 +106,9 @@ export default function DashboardClient() {
               <div className="rounded-full bg-secondary p-4">
                 <Package className="h-10 w-10 text-muted-foreground" />
               </div>
-              <h3 className="text-xl font-semibold">All Good!</h3>
+              <h3 className="text-xl font-semibold">{t("All Good!")}</h3>
               <p className="text-muted-foreground">
-                No items currently require restocking.
+                {t("No items currently require restocking.")}
               </p>
             </div>
           )}

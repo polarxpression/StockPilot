@@ -18,6 +18,7 @@ import InventoryTableActions from "./inventory-table-actions";
 import AddEditCartridgeDialog from "./add-edit-cartridge-dialog";
 import UpdateStockForm from "./update-stock-form";
 import { Package } from "lucide-react";
+import { useI18n } from "@/contexts/i18n-provider";
 
 interface InventoryTableProps {
   cartridges: Cartridge[];
@@ -28,6 +29,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
   const [editingCartridge, setEditingCartridge] = useState<
     Cartridge | undefined
   >(undefined);
+  const { t } = useI18n();
 
   return (
     <>
@@ -35,16 +37,16 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-16 hidden sm:table-cell">Image</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Model</TableHead>
-              <TableHead>Stock</TableHead>
+              <TableHead className="w-16 hidden sm:table-cell">{t("Image")}</TableHead>
+              <TableHead>{t("Name")}</TableHead>
+              <TableHead>{t("Model")}</TableHead>
+              <TableHead>{t("Stock")}</TableHead>
               <TableHead className="hidden md:table-cell">
-                Threshold
+                {t("Threshold")}
               </TableHead>
-              <TableHead className="hidden lg:table-cell">Last Updated</TableHead>
+              <TableHead className="hidden lg:table-cell">{t("Last Updated")}</TableHead>
               <TableHead>
-                <span className="sr-only">Actions</span>
+                <span className="sr-only">{t("Actions")}</span>
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -72,7 +74,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
                     <div className="flex items-center gap-2">
                        {item.name}
                        {item.stock <= item.reorderThreshold && (
-                        <Badge variant="destructive" className="hidden sm:inline-flex">Low</Badge>
+                        <Badge variant="destructive" className="hidden sm:inline-flex">{t("Low")}</Badge>
                        )}
                     </div>
                   </TableCell>
@@ -97,7 +99,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
             ) : (
               <TableRow>
                 <TableCell colSpan={7} className="h-24 text-center">
-                  No cartridges found.
+                  {t("No cartridges found.")}
                 </TableCell>
               </TableRow>
             )}

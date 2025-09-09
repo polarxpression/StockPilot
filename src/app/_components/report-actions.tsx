@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { type Cartridge } from "@/lib/data";
+import { useI18n } from "@/contexts/i18n-provider";
 
 interface ReportActionsProps {
   data: Cartridge[];
@@ -24,6 +25,8 @@ export default function ReportActions({
   reportRef,
   disabled,
 }: ReportActionsProps) {
+  const { t } = useI18n();
+
   const handleExportCsv = () => {
     const headers = ["ID", "Name", "Model", "Stock", "Reorder Threshold"];
     const rows = data.map((item) =>
@@ -75,21 +78,21 @@ export default function ReportActions({
       <DropdownMenuTrigger asChild>
         <Button disabled={disabled}>
           <Download className="mr-2 h-4 w-4" />
-          Export Report
+          {t("Export Report")}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem onSelect={handleExportCsv}>
           <Sheet className="mr-2 h-4 w-4" />
-          <span>Export as CSV</span>
+          <span>{t("Export as CSV")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={handleExportImage}>
           <FileImage className="mr-2 h-4 w-4" />
-          <span>Export as Image</span>
+          <span>{t("Export as Image")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={handleExportPdf}>
           <FileText className="mr-2 h-4 w-4" />
-          <span>Export as PDF</span>
+          <span>{t("Export as PDF")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
