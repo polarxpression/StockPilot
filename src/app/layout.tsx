@@ -12,7 +12,6 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarTrigger,
   SidebarInset,
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toaster";
@@ -20,6 +19,7 @@ import { Logo } from "@/components/logo";
 import { CartridgeDataProvider } from "@/contexts/cartridge-data-provider";
 import { AppProviders } from "@/components/app-providers";
 import Settings from "@/components/settings";
+import Header from "@/components/header";
 
 export const metadata: Metadata = {
   title: "StockPilot",
@@ -47,10 +47,7 @@ export default function RootLayout({
             <SidebarProvider>
               <Sidebar>
                 <SidebarHeader>
-                  <div className="flex items-center gap-2 p-2">
-                    <Logo />
-                    <SidebarTrigger className="ml-auto" />
-                  </div>
+                  <Logo />
                 </SidebarHeader>
                 <SidebarContent>
                   <SidebarMenu>
@@ -94,6 +91,7 @@ export default function RootLayout({
                 </SidebarFooter>
               </Sidebar>
               <SidebarInset>
+                <Header />
                 <main className="p-4 md:p-6 lg:p-8">{children}</main>
               </SidebarInset>
             </SidebarProvider>
