@@ -41,7 +41,7 @@ export default function RestockReportTable({
           </CardContent>
           <CardFooter className="flex flex-col items-center justify-center p-4">
             <p className="text-sm text-muted-foreground">{t("Quantity to Reorder")}</p>
-            <p className="text-2xl font-bold">{item.reorderThreshold * 2}</p>
+            <p className="text-2xl font-bold">{Math.max(0, (item.reorderThreshold * 2) - item.stock)}</p>
           </CardFooter>
         </Card>
       ))}
