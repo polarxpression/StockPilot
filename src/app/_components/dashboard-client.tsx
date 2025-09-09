@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BarChart, Package, PackageWarning, AlertCircle } from "lucide-react";
+import { BarChart, Package, AlertCircle } from "lucide-react";
 import RestockReportTable from "./restock-report-table";
 import ReportActions from "./report-actions";
 
@@ -69,7 +69,7 @@ export default function DashboardClient() {
             <CardTitle className="text-sm font-medium">
               Needs Reordering
             </CardTitle>
-            <PackageWarning className="h-4 w-4 text-muted-foreground" />
+            <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.lowStockItems}</div>
