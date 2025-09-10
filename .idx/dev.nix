@@ -7,9 +7,15 @@
   packages = [
     pkgs.nodejs_20
     pkgs.zulu
+    pkgs.git
   ];
   # Sets environment variables in the workspace
-  env = {};
+  env = {
+      shellHook = ''
+      git config --global user.name "Your Name"
+      git config --global user.email "you@example.com"
+    '';
+  };
   # This adds a file watcher to startup the firebase emulators. The emulators will only start if
   # a firebase.json file is written into the user's directory
   services.firebase.emulators = {
@@ -40,5 +46,7 @@
         };
       };
     };
+
+    
   };
 }
