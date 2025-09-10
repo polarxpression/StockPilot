@@ -79,7 +79,6 @@ export default function ReportActions({
     html2canvas(reportRef.current, {
       scale: 2,
       useCORS: true,
-      allowTaint: true,
     }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const link = document.createElement("a");
@@ -97,7 +96,6 @@ export default function ReportActions({
     const canvas = await html2canvas(reportRef.current, {
       scale: 2,
       useCORS: true,
-      allowTaint: true,
     });
     
     const imgData = canvas.toDataURL("image/png");
