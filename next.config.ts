@@ -13,27 +13,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
+        hostname: '**',
       },
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'br-media.hptiendaenlinea.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'ssl-product-images.www8-hp.com',
-        port: '',
-        pathname: '/**',
+       {
+        protocol: 'http',
+        hostname: '**',
       }
     ],
   },
