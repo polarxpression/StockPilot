@@ -88,7 +88,12 @@ export default function ReportActions({
       useCORS: true,
       allowTaint: true,
       onclone: (document) => {
-        console.log('html2canvas onclone');
+        document.querySelectorAll('img[data-ai-hint~="ink"]').forEach((img) => {
+          const image = img as HTMLImageElement
+          image.style.width = '100%';
+          image.style.height = 'auto';
+          image.style.objectFit = 'contain';
+        });
       }
     }).then((canvas) => {
       console.log("html2canvas for image export finished");
@@ -112,7 +117,12 @@ export default function ReportActions({
       useCORS: true,
       allowTaint: true,
       onclone: (document) => {
-        console.log('html2canvas onclone');
+        document.querySelectorAll('img[data-ai-hint~="ink"]').forEach((img) => {
+          const image = img as HTMLImageElement
+          image.style.width = '100%';
+          image.style.height = 'auto';
+          image.style.objectFit = 'contain';
+        });
       }
     });
     console.log("html2canvas for PDF export finished");
