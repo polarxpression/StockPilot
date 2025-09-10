@@ -90,8 +90,8 @@ export default function ReportActions({
       onclone: (document) => {
         document.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
           const image = img as HTMLImageElement
-          image.style.width = '100%';
-          image.style.height = 'auto';
+          image.style.height = '100%';
+          image.style.width = 'auto';
           image.style.objectFit = 'contain';
         });
       }
@@ -118,8 +118,8 @@ export default function ReportActions({
       onclone: (document) => {
         document.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
           const image = img as HTMLImageElement
-          image.style.width = '100%';
-          image.style.height = 'auto';
+          image.style.height = '100%';
+          image.style.width = 'auto';
           image.style.objectFit = 'contain';
         });
       }
