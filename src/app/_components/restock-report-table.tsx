@@ -24,7 +24,7 @@ export default function RestockReportTable({
       {cartridges.map((item) => (
         <Card key={item.id} className="overflow-hidden">
           <CardContent className="p-0">
-            <div className="h-48 w-full bg-muted flex items-center justify-center">
+            <div className="aspect-square w-full bg-muted flex items-center justify-center">
               {item.imageUrl ? (
                 <Image
                   src={`/api/image-proxy?imageUrl=${encodeURIComponent(item.imageUrl)}`}
@@ -42,6 +42,7 @@ export default function RestockReportTable({
           </CardContent>
           <CardFooter className="flex flex-col items-center justify-center p-4">
             <p className="text-sm font-semibold text-center">{`${item.brand} ${item.model} - ${item.color}`}</p>
+            <p className="text-sm text-muted-foreground">{t("Quantity")}</p>
             <p className="text-2xl font-bold">{Math.max(0, (item.reorderThreshold * 2) - item.stock)}</p>
           </CardFooter>
         </Card>

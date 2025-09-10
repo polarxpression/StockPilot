@@ -1,4 +1,3 @@
-
 {
   "Settings": "Configurações",
   "Theme": "Tema",
@@ -54,5 +53,6 @@
   "e.g., Black": "ex., Preto",
   "Image URL": "URL da Imagem",
   "Save Changes": "Salvar Alterações",
-  "Quantity to Reorder": "Quantidade para Repor"
+  "Quantity to Reorder": "Quantidade para Repor",
+  "Quantity": "Quantidade"
 }
