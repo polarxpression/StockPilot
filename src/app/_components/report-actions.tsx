@@ -91,7 +91,7 @@ export default function ReportActions({
         document.querySelectorAll('img[data-ai-hint~="ink"]').forEach((img) => {
           const image = img as HTMLImageElement
           image.style.width = '100%';
-          image.style.height = 'auto';
+          image.style.height = '100%';
           image.style.objectFit = 'contain';
         });
       }
@@ -120,7 +120,7 @@ export default function ReportActions({
         document.querySelectorAll('img[data-ai-hint~="ink"]').forEach((img) => {
           const image = img as HTMLImageElement
           image.style.width = '100%';
-          image.style.height = 'auto';
+          image.style.height = '100%';
           image.style.objectFit = 'contain';
         });
       }
