@@ -23,15 +23,21 @@ interface ReportActionsProps {
 
 const waitForImages = (element: HTMLElement): Promise<void[]> => {
   const images = Array.from(element.querySelectorAll("img"));
-  const promises = images.map((img) => {
+  console.log(`Found ${images.length} images to wait for.`);
+  const promises = images.map((img, index) => {
     return new Promise<void>((resolve) => {
+      console.log(`Image ${index} src: ${img.src}`);
       if (img.complete) {
+        console.log(`Image ${index} (${img.src}) is already complete.`);
         resolve();
       } else {
-        img.onload = () => resolve();
+        img.onload = () => {
+          console.log(`Image ${index} (${img.src}) loaded successfully.`);
+          resolve();
+        };
         img.onerror = () => {
           // Resolve even on error to not break the entire export
-          console.warn(`Could not load image: ${img.src}`);
+          console.warn(`Could not load image ${index}: ${img.src}`);
           resolve();
         };
       }
