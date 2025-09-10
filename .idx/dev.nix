@@ -12,8 +12,7 @@
   # Sets environment variables in the workspace
   env = {
       shellHook = ''
-      git config --global user.name "Your Name"
-      git config --global user.email "you@example.com"
+      git config --global user.email "rafaelbraun5@hotmail.com"
     '';
   };
   # This adds a file watcher to startup the firebase emulators. The emulators will only start if
