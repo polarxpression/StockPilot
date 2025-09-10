@@ -82,10 +82,18 @@ export default function ReportActions({
     // Wait for images to load
     await waitForImages(reportRef.current);
     
+    console.log("Starting html2canvas for image export");
     html2canvas(reportRef.current, {
       scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      onclone: (document) => {
+        console.log('html2canvas onclone');
+      }
     }).then((canvas) => {
+      console.log("html2canvas for image export finished");
       const imgData = canvas.toDataURL("image/png");
+      console.log("Image data URL:", imgData.substring(0, 100)); // Log first 100 chars
       const link = document.createElement("a");
       link.href = imgData;
       link.download = "restock_report.png";
@@ -98,11 +106,19 @@ export default function ReportActions({
 
     await waitForImages(reportRef.current);
 
+    console.log("Starting html2canvas for PDF export");
     const canvas = await html2canvas(reportRef.current, {
       scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      onclone: (document) => {
+        console.log('html2canvas onclone');
+      }
     });
+    console.log("html2canvas for PDF export finished");
     
     const imgData = canvas.toDataURL("image/png");
+    console.log("Image data URL for PDF:", imgData.substring(0, 100)); // Log first 100 chars
     const pdf = new jsPDF("p", "mm", "a4");
     const imgProps = pdf.getImageProperties(imgData);
     const pdfWidth = pdf.internal.pageSize.getWidth();

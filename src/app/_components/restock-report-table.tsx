@@ -27,12 +27,13 @@ export default function RestockReportTable({
             <div className="aspect-square w-full bg-muted flex items-center justify-center">
               {item.imageUrl ? (
                 <Image
-                  src={item.imageUrl}
+                  src={`/api/image-proxy?imageUrl=${encodeURIComponent(item.imageUrl)}`}
                   alt={`${item.brand} ${item.model}`}
                   width={200}
                   height={200}
                   className="h-full w-full object-contain"
                   data-ai-hint="ink cartridge"
+                  crossOrigin="anonymous"
                 />
               ) : (
                 <Package className="h-12 w-12 text-muted-foreground" />

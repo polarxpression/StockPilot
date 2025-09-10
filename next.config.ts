@@ -16,10 +16,15 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '**',
       },
-       {
+        {
         protocol: 'http',
         hostname: '**',
       }
+    ],
+  },
+  devIndicators: {
+    allowedDevOrigins: [
+      '9000-firebase-studio-1757424973265.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev',
     ],
   },
 };

@@ -59,7 +59,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
                     <div className="flex h-12 w-12 items-center justify-center rounded-md bg-muted">
                     {item.imageUrl ? (
                       <Image
-                        src={item.imageUrl}
+                        src={`/api/image-proxy?imageUrl=${encodeURIComponent(item.imageUrl)}`}
                         alt={`${item.brand} ${item.model}`}
                         width={48}
                         height={48}
