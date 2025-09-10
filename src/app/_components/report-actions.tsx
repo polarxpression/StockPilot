@@ -35,9 +35,9 @@ const waitForImages = (element: HTMLElement): Promise<void[]> => {
           console.log(`Image ${index} (${img.src}) loaded successfully.`);
           resolve();
         };
-        img.onerror = () => {
+        img.onerror = (e) => {
           // Resolve even on error to not break the entire export
-          console.warn(`Could not load image ${index}: ${img.src}`);
+          console.warn(`Could not load image ${index}: ${img.src}`, e);
           resolve();
         };
       }
@@ -88,17 +88,16 @@ export default function ReportActions({
       useCORS: true,
       allowTaint: true,
       onclone: (document) => {
-        document.querySelectorAll('img[data-ai-hint~="ink"]').forEach((img) => {
+        document.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
           const image = img as HTMLImageElement
           image.style.width = '100%';
-          image.style.height = '100%';
+          image.style.height = 'auto';
           image.style.objectFit = 'contain';
         });
       }
     }).then((canvas) => {
       console.log("html2canvas for image export finished");
       const imgData = canvas.toDataURL("image/png");
-      console.log("Image data URL:", imgData.substring(0, 100)); // Log first 100 chars
       const link = document.createElement("a");
       link.href = imgData;
       link.download = "restock_report.png";
@@ -117,10 +116,10 @@ export default function ReportActions({
       useCORS: true,
       allowTaint: true,
       onclone: (document) => {
-        document.querySelectorAll('img[data-ai-hint~="ink"]').forEach((img) => {
+        document.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
           const image = img as HTMLImageElement
           image.style.width = '100%';
-          image.style.height = '100%';
+          image.style.height = 'auto';
           image.style.objectFit = 'contain';
         });
       }
@@ -128,7 +127,6 @@ export default function ReportActions({
     console.log("html2canvas for PDF export finished");
     
     const imgData = canvas.toDataURL("image/png");
-    console.log("Image data URL for PDF:", imgData.substring(0, 100)); // Log first 100 chars
     const pdf = new jsPDF("p", "mm", "a4");
     const imgProps = pdf.getImageProperties(imgData);
     const pdfWidth = pdf.internal.pageSize.getWidth();
