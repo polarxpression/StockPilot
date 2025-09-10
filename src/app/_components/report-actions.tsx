@@ -87,7 +87,7 @@ export default function ReportActions({
       scale: 2,
       useCORS: true,
       allowTaint: true,
-      onclone: (document) => {
+      onclone: (document) => { 
         document.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
           const image = img as HTMLImageElement
           image.style.height = 'auto';
