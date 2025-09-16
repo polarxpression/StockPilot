@@ -5,100 +5,118 @@ import {
   useContext,
   useState,
   type ReactNode,
-  type Dispatch,
-  type SetStateAction,
   useEffect,
 } from "react";
+import {
+  collection,
+  onSnapshot,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+  writeBatch,
+  getDocs,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "@/lib/firebase/firebase";
 import { initialCartridges, type Cartridge } from "@/lib/data";
 
 type CartridgeDataContextType = {
   cartridges: Cartridge[];
-  setCartridges: Dispatch<SetStateAction<Cartridge[]>>;
-  addCartridge: (cartridge: Omit<Cartridge, "id" | "lastUpdated">) => void;
-  updateCartridge: (id: string, updatedCartridge: Partial<Omit<Cartridge, 'id' | 'lastUpdated'>>) => void;
-  deleteCartridge: (id: string) => void;
-  updateStock: (id: string, newStock: number) => void;
+  addCartridge: (cartridge: Omit<Cartridge, "id" | "lastUpdated">) => Promise<void>;
+  updateCartridge: (id: string, updatedCartridge: Partial<Omit<Cartridge, 'id' | 'lastUpdated'>>) => Promise<void>;
+  deleteCartridge: (id: string) => Promise<void>;
+  updateStock: (id: string, newStock: number) => Promise<void>;
 };
 
 const CartridgeDataContext = createContext<CartridgeDataContextType | undefined>(
   undefined
 );
 
-// Custom hook to persist state to localStorage
-function useLocalStorage<T>(
-  key: string,
-  initialValue: T
-): [T, Dispatch<SetStateAction<T>>] {
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    if (typeof window === "undefined") {
-      return initialValue;
-    }
-    try {
-      const item = window.localStorage.getItem(key);
-      // Reviver to correctly parse Date objects
-      return item
-        ? JSON.parse(item, (k, v) =>
-            typeof v === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/.test(v)
-              ? new Date(v)
-              : v
-          )
-        : initialValue;
-    } catch (error) {
-      console.error(error);
-      return initialValue;
-    }
-  });
+export function CartridgeDataProvider({ children }: { children: ReactNode }) {
+  const [cartridges, setCartridges] = useState<Cartridge[]>([]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        window.localStorage.setItem(key, JSON.stringify(storedValue));
-      } catch (error) {
-        console.error(error);
+    const cartridgesCollection = collection(db, "cartridges");
+
+    const seedDatabase = async () => {
+      const snapshot = await getDocs(cartridgesCollection);
+      if (snapshot.empty) {
+        console.log("Cartridges collection is empty, seeding with initial data...");
+        const batch = writeBatch(db);
+        initialCartridges.forEach((cartridge) => {
+          const { id, ...data } = cartridge;
+          const docRef = doc(db, "cartridges", id);
+          batch.set(docRef, {
+            ...data,
+            lastUpdated: Timestamp.fromDate(data.lastUpdated),
+          });
+        });
+        await batch.commit();
+        console.log("Database seeded successfully.");
       }
-    }
-  }, [key, storedValue]);
-
-  return [storedValue, setStoredValue];
-}
-
-export function CartridgeDataProvider({ children }: { children: ReactNode }) {
-  const [cartridges, setCartridges] = useLocalStorage<Cartridge[]>(
-    "cartridges",
-    initialCartridges
-  );
-
-  const addCartridge = (cartridge: Omit<Cartridge, "id" | "lastUpdated">) => {
-    const newCartridge: Cartridge = {
-      ...cartridge,
-      id: crypto.randomUUID(),
-      lastUpdated: new Date(),
     };
-    setCartridges((prev) => [...prev, newCartridge]);
+
+    seedDatabase();
+
+    const unsubscribe = onSnapshot(cartridgesCollection, (snapshot) => {
+      const cartridgesData = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          // Convert Firestore Timestamp to JS Date
+          lastUpdated: (data.lastUpdated as Timestamp)?.toDate() || new Date(),
+        } as Cartridge;
+      });
+      setCartridges(cartridgesData);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  const addCartridge = async (cartridge: Omit<Cartridge, "id" | "lastUpdated">) => {
+    try {
+      await addDoc(collection(db, "cartridges"), {
+        ...cartridge,
+        lastUpdated: serverTimestamp(),
+      });
+    } catch (error) {
+      console.error("Error adding cartridge: ", error);
+    }
   };
 
-  const updateCartridge = (id: string, updatedCartridge: Partial<Omit<Cartridge, 'id' | 'lastUpdated'>>) => {
-    setCartridges((prev) =>
-      prev.map((c) =>
-        c.id === id ? { ...c, ...updatedCartridge, lastUpdated: new Date() } : c
-      )
-    );
+  const updateCartridge = async (id: string, updatedCartridge: Partial<Omit<Cartridge, 'id' | 'lastUpdated'>>) => {
+    try {
+      const cartridgeDoc = doc(db, "cartridges", id);
+      await updateDoc(cartridgeDoc, {
+        ...updatedCartridge,
+        lastUpdated: serverTimestamp(),
+      });
+    } catch (error) {
+      console.error("Error updating cartridge: ", error);
+    }
   };
 
-  const deleteCartridge = (id: string) => {
-    setCartridges((prev) => prev.filter((c) => c.id !== id));
+  const deleteCartridge = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, "cartridges", id));
+    } catch (error) {
+      console.error("Error deleting cartridge: ", error);
+    }
   };
-  
-  const updateStock = (id: string, newStock: number) => {
+
+  const updateStock = async (id: string, newStock: number) => {
     if (newStock < 0) return;
-    updateCartridge(id, { stock: newStock });
+    await updateCartridge(id, { stock: newStock });
   };
 
   return (
     <CartridgeDataContext.Provider
       value={{
         cartridges,
-        setCartridges,
         addCartridge,
         updateCartridge,
         deleteCartridge,
