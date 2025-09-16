@@ -28,23 +28,30 @@ function getInitialLocale(): Locale {
   if (typeof window === "undefined") {
     return "en";
   }
-  const savedLocale = window.localStorage.getItem("locale");
-  return savedLocale === '"pt"' ? "pt" : "en";
+  const savedLocale = localStorage.getItem("locale");
+  if (savedLocale) {
+    try {
+      const parsedLocale = JSON.parse(savedLocale);
+      if (parsedLocale === "pt") {
+        return "pt";
+      }
+    } catch (e) {
+      // If parsing fails, default to 'en'
+      return "en";
+    }
+  }
+  return "en";
 }
 
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
-  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
     const savedLocale = localStorage.getItem("locale");
-    if (savedLocale) {
-      const parsedLocale = JSON.parse(savedLocale) as Locale;
-      if (parsedLocale !== locale) {
-        setLocaleState(parsedLocale);
-      }
+    const currentLocale = savedLocale ? JSON.parse(savedLocale) : 'en';
+    if (currentLocale !== locale) {
+      setLocaleState(currentLocale);
     }
   }, [locale]);
   
@@ -55,9 +62,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const t = useCallback(
     (key: string) => {
-      const currentLocale = isMounted ? locale : 'en';
       const keys = key.split(".");
-      let result: any = translations[currentLocale];
+      let result: any = translations[locale];
       for (const k of keys) {
         result = result?.[k];
         if (result === undefined) {
@@ -71,12 +77,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       }
       return result || key;
     },
-    [locale, isMounted]
+    [locale]
   );
-  
-  if (!isMounted) {
-      return null;
-  }
 
   return (
     <I18nContext.Provider value={{ locale, setLocale, t }}>
