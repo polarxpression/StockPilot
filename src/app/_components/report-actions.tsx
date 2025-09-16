@@ -55,11 +55,11 @@ export default function ReportActions({
   const { t } = useI18n();
 
   const handleExportCsv = () => {
-    const headers = ["ID", "Name", "Model", "Stock", "Reorder Threshold"];
+    const headers = ["ID", "Brand", "Model", "Stock", "Reorder Threshold"];
     const rows = data.map((item) =>
       [
         item.id,
-        item.name,
+        item.brand,
         item.model,
         item.stock,
         item.reorderThreshold,

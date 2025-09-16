@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BrainCircuit, Boxes, LayoutDashboard } from "lucide-react";
+import { Inter } from "next/font/google";
 
 import "./globals.css";
 import {
@@ -20,6 +21,8 @@ import Settings from "@/components/settings";
 import Header from "@/components/header";
 import AppSidebarMenu from "@/app/_components/app-sidebar-menu";
 
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+
 export const metadata: Metadata = {
   title: "StockPilot",
   description: "Intelligent Cartridge Inventory Management",
@@ -32,15 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-body antialiased">
+      <body className={`font-sans ${inter.variable} antialiased`}>
         <AppProviders>
           <CartridgeDataProvider>
             <SidebarProvider>

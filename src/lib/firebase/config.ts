@@ -1,11 +1,10 @@
 // It is safe to expose this config object.
 // See https://firebase.google.com/docs/projects/learn-more#config-files-objects
 export const firebaseConfig = {
-  "projectId": "stockpilot-tln4n",
-  "appId": "1:308501306370:web:974a2959d0080ad15e5b1b",
-  "storageBucket": "stockpilot-tln4n.firebasestorage.app",
-  "apiKey": "AIzaSyCbVtEsdD9QCe21O4ZqLa867_Np54HJN-c",
-  "authDomain": "stockpilot-tln4n.firebaseapp.com",
-  "measurementId": "",
-  "messagingSenderId": "308501306370"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
