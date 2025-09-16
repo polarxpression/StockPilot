@@ -24,7 +24,7 @@ export default function RestockReportTable({
       {cartridges.map((item) => (
         <Card key={item.id} className="overflow-hidden">
           <CardContent className="p-0">
-            <div className="aspect-square w-full bg-muted flex items-center justify-center">
+            <div className="h-40 w-full bg-muted flex items-center justify-center">
               {item.imageUrl ? (
                 <Image
                   src={`/api/image-proxy?imageUrl=${encodeURIComponent(item.imageUrl)}`}
