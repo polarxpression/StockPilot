@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCartridgeData } from "@/contexts/cartridge-data-provider";
 import { cartridgeSchema } from "@/lib/schemas";
-import type { Cartridge } from "@/lib/data";
+import type { Cartridge } from "@/lib/types";
 import { useI18n } from "@/contexts/i18n-provider";
 
 interface AddEditCartridgeDialogProps {

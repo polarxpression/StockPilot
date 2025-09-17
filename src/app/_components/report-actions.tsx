@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { type Cartridge } from "@/lib/data";
+import { type Cartridge } from "@/lib/types";
 import { useI18n } from "@/contexts/i18n-provider";
 
 interface ReportActionsProps {

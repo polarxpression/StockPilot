@@ -5,15 +5,26 @@ import { Plus } from "lucide-react";
 
 import { useCartridgeData } from "@/contexts/cartridge-data-provider";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import AddEditCartridgeDialog from "./add-edit-cartridge-dialog";
 import InventoryTable from "./inventory-table";
 import { useI18n } from "@/contexts/i18n-provider";
+import { Input } from "@/components/ui/input";
+import { filterCartridges } from "@/lib/search";
 
 export default function InventoryClient() {
   const { cartridges } = useCartridgeData();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { t } = useI18n();
+
+  const filteredCartridges = filterCartridges(cartridges, searchTerm);
 
   return (
     <>
@@ -26,9 +37,16 @@ export default function InventoryClient() {
       <Card>
         <CardHeader>
           <CardTitle>{t("All Cartridges")}</CardTitle>
+          <CardDescription>
+            <Input
+              placeholder={t("Search cartridges...")}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <InventoryTable cartridges={cartridges} />
+          <InventoryTable cartridges={filteredCartridges} />
         </CardContent>
       </Card>
       <AddEditCartridgeDialog open={dialogOpen} onOpenChange={setDialogOpen} />

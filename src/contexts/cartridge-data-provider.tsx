@@ -20,7 +20,8 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
-import { initialCartridges, type Cartridge } from "@/lib/data";
+import { initialCartridges } from "@/lib/data";
+import { Cartridge } from "@/lib/types";
 
 type CartridgeDataContextType = {
   cartridges: Cartridge[];

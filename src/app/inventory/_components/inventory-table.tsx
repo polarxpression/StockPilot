@@ -13,7 +13,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import type { Cartridge } from "@/lib/data";
+import type { Cartridge } from "@/lib/types";
 import { useCartridgeData } from "@/contexts/cartridge-data-provider";
 import InventoryTableActions from "./inventory-table-actions";
 import AddEditCartridgeDialog from "./add-edit-cartridge-dialog";

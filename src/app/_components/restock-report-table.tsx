@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import { Package } from "lucide-react";
-import type { Cartridge } from "@/lib/data";
+import type { Cartridge } from "@/lib/types";
 import { useI18n } from "@/contexts/i18n-provider";
 import {
   Card,

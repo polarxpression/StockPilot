@@ -7,7 +7,7 @@ import { useEffect, useCallback } from "react";
 import { Plus, Minus } from "lucide-react";
 
 import { useCartridgeData } from "@/contexts/cartridge-data-provider";
-import type { Cartridge } from "@/lib/data";
+import type { Cartridge } from "@/lib/types";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
