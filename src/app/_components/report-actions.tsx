@@ -139,7 +139,7 @@ export default function ReportActions({
           canvas.toBlob(resolve, "image/png")
         );
         if (blob) {
-          zip.file(`${item.brand}-${item.model}.png`, blob);
+          zip.file(`${item.brand}-${item.model}-${item.color}.png`, blob);
         }
       }
     }
