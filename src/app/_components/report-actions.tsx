@@ -14,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { type Cartridge } from "@/lib/types";
 import { useI18n } from "@/contexts/i18n-provider";
+import { saveAs } from "file-saver";
+import JSZip from "jszip";
 
 interface ReportActionsProps {
   data: Cartridge[];
@@ -105,6 +107,48 @@ export default function ReportActions({
     });
   };
 
+
+
+  const handleExportZip = async () => {
+    if (!reportRef.current) return;
+    const zip = new JSZip();
+    const itemsWithImages = data.filter((item) => item.imageUrl);
+
+    for (const item of itemsWithImages) {
+      const cardElement = reportRef.current.querySelector(
+        `[data-item-id='${item.id}']`
+      ) as HTMLElement;
+      if (cardElement) {
+        await waitForImages(cardElement);
+        const canvas = await html2canvas(cardElement, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          onclone: (document) => {
+            document
+              .querySelectorAll('img[data-ai-hint~="cartridge"]')
+              .forEach((img) => {
+                const image = img as HTMLImageElement;
+                image.style.height = "auto";
+                image.style.width = "auto";
+                image.style.objectFit = "contain";
+              });
+          },
+        });
+        const blob = await new Promise((resolve) =>
+          canvas.toBlob(resolve, "image/png")
+        );
+        if (blob) {
+          zip.file(`${item.brand}-${item.model}.png`, blob);
+        }
+      }
+    }
+
+    zip.generateAsync({ type: "blob" }).then((content: Blob) => {
+      saveAs(content, "restock_report_images.zip");
+    });
+  };
+
   const handleExportPdf = async () => {
     if (!reportRef.current) return;
 
@@ -155,6 +199,10 @@ export default function ReportActions({
         <DropdownMenuItem onSelect={handleExportPdf}>
           <FileText className="mr-2 h-4 w-4" />
           <span>{t("Export as PDF")}</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={handleExportZip}>
+          <FileImage className="mr-2 h-4 w-4" />
+          <span>{t("Export as ZIP")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

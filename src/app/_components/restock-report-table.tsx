@@ -22,7 +22,7 @@ export default function RestockReportTable({
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
       {cartridges.map((item) => (
-        <Card key={item.id} className="overflow-hidden">
+        <Card key={item.id} data-item-id={item.id} className="overflow-hidden">
           <CardContent className="p-0">
             <div className="h-40 w-full bg-muted flex items-center justify-center">
               {item.imageUrl ? (
