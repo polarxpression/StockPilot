@@ -42,6 +42,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
               <TableHead>{t("Brand")}</TableHead>
               <TableHead>{t("Model")}</TableHead>
               <TableHead>{t("Color")}</TableHead>
+              <TableHead>{t("Barcode")}</TableHead>
               <TableHead>{t("Stock")}</TableHead>
               <TableHead className="hidden md:table-cell">
                 {t("Threshold")}
@@ -84,6 +85,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
                        )}
                     </div>
                   </TableCell>
+                  <TableCell className="text-muted-foreground">{item.barcode}</TableCell>
                   <TableCell>
                     <UpdateStockForm cartridge={item} />
                   </TableCell>
@@ -103,7 +105,7 @@ export default function InventoryTable({ cartridges }: InventoryTableProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={8} className="h-24 text-center">
+                <TableCell colSpan={9} className="h-24 text-center">
                   {t("No cartridges found.")}
                 </TableCell>
               </TableRow>

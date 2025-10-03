@@ -16,5 +16,6 @@ export const cartridgeSchema = z.object({
   reorderThreshold: z.coerce.number().int().min(1, {
     message: "Threshold must be at least 1.",
   }),
+  barcode: z.string().optional(),
   imageUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
 });

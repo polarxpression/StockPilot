@@ -51,6 +51,7 @@ export default function AddEditCartridgeDialog({
       color: "",
       stock: 0,
       reorderThreshold: 10,
+      barcode: "",
       imageUrl: "",
     },
   });
@@ -65,6 +66,7 @@ export default function AddEditCartridgeDialog({
         color: "",
         stock: 0,
         reorderThreshold: 10,
+        barcode: "",
         imageUrl: "",
       });
     }
@@ -135,6 +137,19 @@ export default function AddEditCartridgeDialog({
                   </FormItem>
                 )}
               />
+            <FormField
+              control={form.control}
+              name="barcode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("Barcode")}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t("e.g., 123456789")} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="imageUrl"

@@ -5,6 +5,7 @@ export interface Cartridge {
   color: string;
   stock: number;
   reorderThreshold: number;
+  barcode?: string;
   lastUpdated: Date;
   imageUrl?: string;
 }

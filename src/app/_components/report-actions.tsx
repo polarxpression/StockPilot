@@ -57,12 +57,13 @@ export default function ReportActions({
   const { t } = useI18n();
 
   const handleExportCsv = () => {
-    const headers = ["ID", "Brand", "Model", "Stock", "Reorder Threshold"];
+    const headers = ["ID", "Brand", "Model", "Barcode", "Stock", "Reorder Threshold"];
     const rows = data.map((item) =>
       [
         item.id,
         item.brand,
         item.model,
+        item.barcode,
         item.stock,
         item.reorderThreshold,
       ].join(",")
@@ -135,7 +136,7 @@ export default function ReportActions({
               });
           },
         });
-        const blob = await new Promise((resolve) =>
+        const blob = await new Promise<Blob | null>((resolve) =>
           canvas.toBlob(resolve, "image/png")
         );
         if (blob) {
