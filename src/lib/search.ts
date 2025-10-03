@@ -71,7 +71,7 @@ const evaluateTerm = (cartridge: Cartridge, term: string): boolean => {
   // Handle quoted exact match
   if (term.startsWith('"') && term.endsWith('"')) {
     const exactTerm = term.substring(1, term.length - 1).toLowerCase();
-    const searchableFields = ['brand', 'model', 'color'];
+    const searchableFields = ['brand', 'model', 'color', 'barcode'];
     return searchableFields.some(field => {
         const value = cartridge[field as keyof Cartridge];
         return typeof value === 'string' && value.toLowerCase().trim() === exactTerm;
@@ -131,7 +131,7 @@ const evaluateFieldSearch = (cartridge: Cartridge, field: string, value: string,
 };
 
 const evaluateGeneralTagSearch = (cartridge: Cartridge, term: string): boolean => {
-  const searchableFields = ['brand', 'model', 'color'];
+  const searchableFields = ['brand', 'model', 'color', 'barcode'];
   const lowerTerm = term.toLowerCase();
 
   if (lowerTerm.includes('*')) {
