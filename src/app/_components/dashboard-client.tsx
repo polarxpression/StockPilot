@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useCartridgeData } from "@/contexts/cartridge-data-provider";
 import {
   Card,
@@ -12,11 +12,14 @@ import { BarChart, Package, AlertCircle } from "lucide-react";
 import RestockReportTable from "./restock-report-table";
 import ReportActions from "./report-actions";
 import { useI18n } from "@/contexts/i18n-provider";
+import ReportFilters from "./report-filters";
+import { Cartridge } from "@/lib/types";
 
 export default function DashboardClient() {
   const { cartridges } = useCartridgeData();
   const reportRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
+  const [filteredCartridges, setFilteredCartridges] = useState<Cartridge[]>([]);
 
   const stats = useMemo(() => {
     const totalStock = cartridges.reduce((sum, item) => sum + item.stock, 0);
@@ -35,6 +38,10 @@ export default function DashboardClient() {
       cartridges.filter((item) => item.stock <= item.reorderThreshold / 2),
     [cartridges]
   );
+
+  const handleFilter = (filteredData: Cartridge[]) => {
+    setFilteredCartridges(filteredData);
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -93,26 +100,29 @@ export default function DashboardClient() {
               </p>
             </div>
             <ReportActions
-              data={lowStockCartridges}
+              data={filteredCartridges}
               reportRef={reportRef}
-              disabled={lowStockCartridges.length === 0}
+              disabled={filteredCartridges.length === 0}
             />
           </div>
         </CardHeader>
-        <CardContent ref={reportRef}>
-          {lowStockCartridges.length > 0 ? (
-            <RestockReportTable cartridges={lowStockCartridges} />
-          ) : (
-            <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
-              <div className="rounded-full bg-secondary p-4">
-                <Package className="h-10 w-10 text-muted-foreground" />
+        <CardContent>
+          <ReportFilters data={lowStockCartridges} onFilter={handleFilter} />
+          <div ref={reportRef}>
+            {filteredCartridges.length > 0 ? (
+              <RestockReportTable cartridges={filteredCartridges} />
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
+                <div className="rounded-full bg-secondary p-4">
+                  <Package className="h-10 w-10 text-muted-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold">{t("All Good!")}</h3>
+                <p className="text-muted-foreground">
+                  {t("No items currently require restocking.")}
+                </p>
               </div>
-              <h3 className="text-xl font-semibold">{t("All Good!")}</h3>
-              <p className="text-muted-foreground">
-                {t("No items currently require restocking.")}
-              </p>
-            </div>
-          )}
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>
