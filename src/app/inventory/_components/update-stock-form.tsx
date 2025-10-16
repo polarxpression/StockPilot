@@ -32,7 +32,7 @@ export default function UpdateStockForm({
 
   useEffect(() => {
     form.reset({ stock: cartridge.stock });
-  }, [cartridge.stock, form]);
+  }, [cartridge.stock]);
 
   const onSubmit = useCallback((values: { stock: number }) => {
     if (values.stock !== cartridge.stock) {

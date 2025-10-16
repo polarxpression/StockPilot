@@ -47,13 +47,7 @@ function getInitialLocale(): Locale {
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
 
-  useEffect(() => {
-    const savedLocale = localStorage.getItem("locale");
-    const currentLocale = savedLocale ? JSON.parse(savedLocale) : 'en';
-    if (currentLocale !== locale) {
-      setLocaleState(currentLocale);
-    }
-  }, [locale]);
+
   
   const setLocale = (newLocale: Locale) => {
       setLocaleState(newLocale);

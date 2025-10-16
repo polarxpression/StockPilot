@@ -70,7 +70,7 @@ export default function AddEditCartridgeDialog({
         imageUrl: "",
       });
     }
-  }, [cartridge, form, open]);
+  }, [cartridge, open]);
 
   const onSubmit = (values: z.infer<typeof cartridgeSchema>) => {
     if (isEditMode) {

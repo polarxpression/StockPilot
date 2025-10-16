@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useCallback } from "react";
 import { useCartridgeData } from "@/contexts/cartridge-data-provider";
 import {
   Card,
@@ -39,9 +39,9 @@ export default function DashboardClient() {
     [cartridges]
   );
 
-  const handleFilter = (filteredData: Cartridge[]) => {
+  const handleFilter = useCallback((filteredData: Cartridge[]) => {
     setFilteredCartridges(filteredData);
-  };
+  }, []);
 
   return (
     <div className="flex flex-col gap-8">
