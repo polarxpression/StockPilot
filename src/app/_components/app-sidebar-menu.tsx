@@ -1,6 +1,7 @@
+
 "use client";
 
-
+import Link from "next/link";
 import { Boxes, LayoutDashboard } from "lucide-react";
 
 import { useI18n } from "@/contexts/i18n-provider";
@@ -15,20 +16,21 @@ export default function AppSidebarMenu() {
     <>
       <SidebarMenuItem>
         <SidebarMenuButton asChild tooltip={{ children: t("Dashboard") }}>
-          <a href="/">
+          <Link href="/">
             <LayoutDashboard />
             <span>{t("Dashboard")}</span>
-          </a>
+          </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>
       <SidebarMenuItem>
         <SidebarMenuButton asChild tooltip={{ children: t("Inventory") }}>
-          <a href="/inventory">
+          <Link href="/inventory">
             <Boxes />
             <span>{t("Inventory")}</span>
-          </a>
+          </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </>
   );
 }
+

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect } from "react";
@@ -21,12 +22,20 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCartridgeData } from "@/contexts/cartridge-data-provider";
 import { cartridgeSchema } from "@/lib/schemas";
 import type { Cartridge } from "@/lib/types";
 import { useI18n } from "@/contexts/i18n-provider";
+import { useCartridgeSelector } from "@/hooks/use-cartridge-selector";
 
 interface AddEditCartridgeDialogProps {
   open: boolean;
@@ -40,6 +49,7 @@ export default function AddEditCartridgeDialog({
   cartridge,
 }: AddEditCartridgeDialogProps) {
   const { addCartridge, updateCartridge } = useCartridgeData();
+  const { brands, models, selectedBrand, setSelectedBrand } = useCartridgeSelector();
   const isEditMode = !!cartridge;
   const { t } = useI18n();
 
@@ -59,6 +69,7 @@ export default function AddEditCartridgeDialog({
   useEffect(() => {
     if (cartridge) {
       form.reset(cartridge);
+      setSelectedBrand(cartridge.brand);
     } else {
       form.reset({
         brand: "",
@@ -69,8 +80,9 @@ export default function AddEditCartridgeDialog({
         barcode: "",
         imageUrl: "",
       });
+      setSelectedBrand(null);
     }
-  }, [cartridge, open]);
+  }, [cartridge, open, form, setSelectedBrand]);
 
   const onSubmit = (values: z.infer<typeof cartridgeSchema>) => {
     if (isEditMode) {
@@ -97,15 +109,33 @@ export default function AddEditCartridgeDialog({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-               <FormField
+              <FormField
                 control={form.control}
                 name="brand"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("Brand")}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t("e.g., HP")} {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setSelectedBrand(value);
+                        form.setValue("model", "");
+                      }}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t("Select a brand")} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {brands.map((brand) => (
+                          <SelectItem key={brand} value={brand}>
+                            {brand}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -116,27 +146,42 @@ export default function AddEditCartridgeDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("Model")}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t("e.g., 63XL")} {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled={!selectedBrand}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t("Select a model")} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {models.map((model) => (
+                          <SelectItem key={model} value={model}>
+                            {model}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-             <FormField
-                control={form.control}
-                name="color"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("Color")}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t("e.g., Black")} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="color"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("Color")}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t("e.g., Black")} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="barcode"
@@ -157,7 +202,10 @@ export default function AddEditCartridgeDialog({
                 <FormItem>
                   <FormLabel>{t("Image URL")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://example.com/image.png" {...field} />
+                    <Input
+                      placeholder="https://example.com/image.png"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -199,7 +247,9 @@ export default function AddEditCartridgeDialog({
               >
                 {t("Cancel")}
               </Button>
-              <Button type="submit">{isEditMode ? t("Save Changes") : t("Add Cartridge")}</Button>
+              <Button type="submit">
+                {isEditMode ? t("Save Changes") : t("Add Cartridge")}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

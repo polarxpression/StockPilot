@@ -24,7 +24,7 @@ export default function DashboardClient() {
   const stats = useMemo(() => {
     const totalStock = cartridges.reduce((sum, item) => sum + item.stock, 0);
     const lowStockItems = cartridges.filter(
-      (item) => item.stock <= item.reorderThreshold / 2
+      (item) => item.stock <= item.reorderThreshold
     ).length;
     return {
       totalTypes: cartridges.length,
@@ -35,7 +35,7 @@ export default function DashboardClient() {
 
   const lowStockCartridges = useMemo(
     () =>
-      cartridges.filter((item) => item.stock <= item.reorderThreshold / 2),
+      cartridges.filter((item) => item.stock <= item.reorderThreshold),
     [cartridges]
   );
 
