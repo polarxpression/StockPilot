@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { InventoryPage } from '@/components/pages/inventory-page';
+---
+
+<Layout title="StockPilot - Inventory">
+  <InventoryPage client:only="react" pathname={Astro.url.pathname} />
+</Layout>

@@ -4,7 +4,6 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft, X } from "lucide-react"
-import { usePathname } from "next/navigation"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -120,14 +119,6 @@ const SidebarProvider = React.forwardRef<
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? "expanded" : "collapsed"
-
-    const pathname = usePathname()
-
-    React.useEffect(() => {
-      if (isMobile) {
-        setOpenMobile(false)
-      }
-    }, [pathname, isMobile, setOpenMobile])
 
     const contextValue = React.useMemo<SidebarContext>(
       () => ({

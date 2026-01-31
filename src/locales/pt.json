@@ -1,4 +1,3 @@
-
 {
   "Settings": "Configurações",
   "Theme": "Tema",
@@ -22,6 +21,7 @@
   "Export as CSV": "Exportar como CSV",
   "Export as Image": "Exportar como Imagem",
   "Export as PDF": "Exportar como PDF",
+  "Export as ZIP": "Exportar como ZIP",
   "All Good!": "Tudo Certo!",
   "No items currently require restocking.": "Nenhum item precisa de reposição no momento.",
   "Brand": "Marca",
@@ -52,9 +52,26 @@
   "e.g., HP": "ex., HP",
   "e.g., 63XL": "ex., 63XL",
   "e.g., Black": "ex., Preto",
+  "e.g., 123456789": "ex., 123456789",
   "Image URL": "URL da Imagem",
   "Save Changes": "Salvar Alterações",
   "Quantity to Reorder": "Quantidade para Repor",
   "Quantity": "Quantidade",
-  "Barcode": "Código de Barras"
+  "Barcode": "Código de Barras",
+  "Brands": "Marcas",
+  "Colors": "Cores",
+  "CSV exported successfully.": "CSV exportado com sucesso.",
+  "Failed to export CSV.": "Falha ao exportar CSV.",
+  "Generating image...": "Gerando imagem...",
+  "Image exported successfully.": "Imagem exportada com sucesso.",
+  "Failed to export image.": "Falha ao exportar imagem.",
+  "Generating ZIP file... This may take a moment.": "Gerando arquivo ZIP... Isso pode levar um momento.",
+  "ZIP exported successfully.": "ZIP exportado com sucesso.",
+  "Failed to export ZIP.": "Falha ao exportar ZIP.",
+  "Generating PDF...": "Gerando PDF...",
+  "PDF exported successfully.": "PDF exportado com sucesso.",
+  "Failed to export PDF.": "Falha ao exportar PDF.",
+  "Search cartridges...": "Pesquisar cartuchos...",
+  "Select a brand": "Selecione uma marca",
+  "Select a model": "Selecione um modelo"
 }

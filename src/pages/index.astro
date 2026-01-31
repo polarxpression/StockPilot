@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { DashboardPage } from '@/components/pages/dashboard-page';
+---
+
+<Layout title="StockPilot">
+  <DashboardPage client:only="react" pathname={Astro.url.pathname} />
+</Layout>

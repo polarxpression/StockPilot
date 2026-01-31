@@ -1,12 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useI18n } from "@/contexts/i18n-provider";
 
-export default function Header() {
+interface HeaderProps {
+  pathname: string;
+}
+
+export default function Header({ pathname }: HeaderProps) {
   const { t } = useI18n();
-  const pathname = usePathname();
   
   const pageTitles: { [key: string]: string } = {
     "/": t("Dashboard"),
