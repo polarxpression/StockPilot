@@ -44,14 +44,16 @@ export default function DashboardClient() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
+        <Card className="hover:shadow-md transition-all duration-300 border-l-4 border-l-primary/50 hover:-translate-y-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               {t("Total Cartridge Types")}
             </CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 bg-secondary rounded-full">
+              <Package className="h-4 w-4 text-muted-foreground" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalTypes}</div>
@@ -60,12 +62,14 @@ export default function DashboardClient() {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover:shadow-md transition-all duration-300 border-l-4 border-l-primary/50 hover:-translate-y-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               {t("Total Stock Level")}
             </CardTitle>
-            <BarChart className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 bg-secondary rounded-full">
+              <BarChart className="h-4 w-4 text-muted-foreground" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalStock}</div>
@@ -74,12 +78,14 @@ export default function DashboardClient() {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover:shadow-md transition-all duration-300 border-l-4 border-l-destructive/50 hover:-translate-y-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               {t("Needs Reordering")}
             </CardTitle>
-            <AlertCircle className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 bg-secondary rounded-full">
+              <AlertCircle className="h-4 w-4 text-destructive" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.lowStockItems}</div>
@@ -90,7 +96,7 @@ export default function DashboardClient() {
         </Card>
       </div>
 
-      <Card>
+      <Card className="shadow-sm border-t-4 border-t-primary/20">
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
@@ -108,18 +114,20 @@ export default function DashboardClient() {
         </CardHeader>
         <CardContent>
           <ReportFilters data={lowStockCartridges} onFilter={handleFilter} />
-          <div ref={reportRef}>
+          <div ref={reportRef} className="mt-4">
             {filteredCartridges.length > 0 ? (
               <RestockReportTable cartridges={filteredCartridges} />
             ) : (
-              <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
-                <div className="rounded-full bg-secondary p-4">
+              <div className="flex flex-col items-center justify-center gap-4 py-12 text-center animate-in zoom-in-95 duration-300">
+                <div className="rounded-full bg-secondary p-4 ring-1 ring-border shadow-sm">
                   <Package className="h-10 w-10 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold">{t("All Good!")}</h3>
-                <p className="text-muted-foreground">
-                  {t("No items currently require restocking.")}
-                </p>
+                <div>
+                  <h3 className="text-xl font-semibold">{t("All Good!")}</h3>
+                  <p className="text-muted-foreground mt-1 max-w-sm mx-auto">
+                    {t("No items currently require restocking.")}
+                  </p>
+                </div>
               </div>
             )}
           </div>

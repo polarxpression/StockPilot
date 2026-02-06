@@ -25,7 +25,7 @@ export function RootLayout({ children, pathname }: RootLayoutProps) {
             </SidebarHeader>
             <SidebarContent>
               <SidebarMenu>
-                <AppSidebarMenu />
+                <AppSidebarMenu pathname={pathname} />
               </SidebarMenu>
             </SidebarContent>
             <SidebarFooter>
@@ -34,7 +34,7 @@ export function RootLayout({ children, pathname }: RootLayoutProps) {
           </Sidebar>
           <SidebarInset>
             <Header pathname={pathname} />
-            <main className="p-4 md:p-6 lg:p-8">{children}</main>
+            <main className="p-4 md:p-6 lg:p-8 animate-in fade-in duration-500">{children}</main>
           </SidebarInset>
         </SidebarProvider>
         <Toaster />

@@ -11,6 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useI18n } from "@/contexts/i18n-provider";
+import { Filter, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface ReportFiltersProps {
   data: Cartridge[];
@@ -23,11 +25,11 @@ export default function ReportFilters({ data, onFilter }: ReportFiltersProps) {
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
 
   const brands = useMemo(
-    () => [...new Set(data.map((item) => item.brand))],
+    () => [...new Set(data.map((item) => item.brand))].sort(),
     [data]
   );
   const colors = useMemo(
-    () => [...new Set(data.map((item) => item.color))],
+    () => [...new Set(data.map((item) => item.color))].sort(),
     [data]
   );
 
@@ -58,13 +60,32 @@ export default function ReportFilters({ data, onFilter }: ReportFiltersProps) {
     );
   };
 
+  const clearFilters = () => {
+    setSelectedBrands([]);
+    setSelectedColors([]);
+  };
+
+  const hasFilters = selectedBrands.length > 0 || selectedColors.length > 0;
+
   return (
-    <div className="flex items-center space-x-4 mb-4">
+    <div className="flex flex-wrap items-center gap-2 mb-4">
+      <div className="flex items-center gap-2 mr-2 text-sm text-muted-foreground">
+        <Filter className="h-4 w-4" />
+        <span>{t("Filter by:")}</span>
+      </div>
+      
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">{t("Brands")}</Button>
+          <Button variant="outline" size="sm" className="h-8 border-dashed">
+            {t("Brands")}
+            {selectedBrands.length > 0 && (
+              <Badge variant="secondary" className="ml-2 px-1 rounded-sm h-5 font-normal">
+                {selectedBrands.length}
+              </Badge>
+            )}
+          </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="start" className="w-[200px]">
           {brands.map((brand) => (
             <DropdownMenuCheckboxItem
               key={brand}
@@ -76,11 +97,19 @@ export default function ReportFilters({ data, onFilter }: ReportFiltersProps) {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">{t("Colors")}</Button>
+          <Button variant="outline" size="sm" className="h-8 border-dashed">
+            {t("Colors")}
+             {selectedColors.length > 0 && (
+              <Badge variant="secondary" className="ml-2 px-1 rounded-sm h-5 font-normal">
+                {selectedColors.length}
+              </Badge>
+            )}
+          </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="start" className="w-[200px]">
           {colors.map((color) => (
             <DropdownMenuCheckboxItem
               key={color}
@@ -92,6 +121,18 @@ export default function ReportFilters({ data, onFilter }: ReportFiltersProps) {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {hasFilters && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={clearFilters}
+          className="h-8 px-2 lg:px-3"
+        >
+          {t("Reset")}
+          <X className="ml-2 h-4 w-4" />
+        </Button>
+      )}
     </div>
   );
 }

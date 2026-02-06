@@ -28,8 +28,8 @@ export default function InventoryClient() {
 
   return (
     <>
-      <div className="flex justify-end">
-        <Button onClick={() => setDialogOpen(true)}>
+      <div className="flex justify-end mb-6">
+        <Button onClick={() => setDialogOpen(true)} className="shadow-sm hover:shadow-md transition-all">
           <Plus className="mr-2 h-4 w-4" />
           {t("Add Cartridge")}
         </Button>
