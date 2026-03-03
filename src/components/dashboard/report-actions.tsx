@@ -89,8 +89,19 @@ export default function ReportActions({
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        onclone: (document) => { 
-          document.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
+        onclone: (clonedDoc) => { 
+          const style = clonedDoc.createElement('style');
+          style.innerHTML = `
+            * {
+              transition: none !important;
+              transform: none !important;
+              animation: none !important;
+              text-rendering: initial !important;
+            }
+          `;
+          clonedDoc.head.appendChild(style);
+
+          clonedDoc.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
             const image = img as HTMLImageElement
             image.style.height = 'auto';
             image.style.width = 'auto';
@@ -137,8 +148,19 @@ export default function ReportActions({
               useCORS: true,
               allowTaint: true,
               logging: false, // Disable logging for performance
-              onclone: (document) => {
-                document
+              onclone: (clonedDoc) => {
+                const style = clonedDoc.createElement('style');
+                style.innerHTML = `
+                  * {
+                    transition: none !important;
+                    transform: none !important;
+                    animation: none !important;
+                    text-rendering: initial !important;
+                  }
+                `;
+                clonedDoc.head.appendChild(style);
+
+                clonedDoc
                   .querySelectorAll('img[data-ai-hint~="cartridge"]')
                   .forEach((img) => {
                     const image = img as HTMLImageElement;
@@ -181,10 +203,21 @@ export default function ReportActions({
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        onclone: (document) => {
-          document.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
+        onclone: (clonedDoc) => {
+          const style = clonedDoc.createElement('style');
+          style.innerHTML = `
+            * {
+              transition: none !important;
+              transform: none !important;
+              animation: none !important;
+              text-rendering: initial !important;
+            }
+          `;
+          clonedDoc.head.appendChild(style);
+
+          clonedDoc.querySelectorAll('img[data-ai-hint~="cartridge"]').forEach((img) => {
             const image = img as HTMLImageElement
-            image.style.height = '100%';
+            image.style.height = 'auto';
             image.style.width = 'auto';
             image.style.objectFit = 'contain';
           });
