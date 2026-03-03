@@ -39,6 +39,20 @@ const waitForImages = (element: HTMLElement): Promise<void[]> => {
   return Promise.all(promises);
 };
 
+const applyHtml2CanvasFix = () => {
+  const styleId = 'html2canvas-fix';
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement('style');
+    style.id = styleId;
+    document.head.appendChild(style);
+    try {
+      style.sheet?.insertRule('body > div:last-child img { display: inline-block; }');
+    } catch (e) {
+      console.warn("Failed to insert html2canvas fix rule", e);
+    }
+  }
+};
+
 export default function ReportActions({
   data,
   reportRef,
@@ -83,6 +97,7 @@ export default function ReportActions({
     toast({ description: t("Generating image...") });
 
     try {
+      applyHtml2CanvasFix();
       if (document.fonts) {
         await document.fonts.ready;
       }
@@ -139,6 +154,7 @@ export default function ReportActions({
     toast({ description: t("Generating ZIP file... This may take a moment.") });
 
     try {
+      applyHtml2CanvasFix();
       if (document.fonts) {
         await document.fonts.ready;
       }
@@ -280,6 +296,7 @@ export default function ReportActions({
     toast({ description: t("Generating PDF...") });
 
     try {
+      applyHtml2CanvasFix();
       if (document.fonts) {
         await document.fonts.ready;
       }
