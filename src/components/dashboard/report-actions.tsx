@@ -155,77 +155,109 @@ export default function ReportActions({
           ) as HTMLElement;
           
           if (cardElement) {
-            await waitForImages(cardElement);
+            // "Isolated Container" strategy:
+            // Clone the element and place it in a fixed, off-screen container
+            // to ensure a clean render context without scroll or grid layout interference.
             
-            const canvas = await html2canvas(cardElement, {
-              scale: 2,
-              useCORS: true,
-              allowTaint: true,
-              logging: false,
-              backgroundColor: null,
-              // Corrects for the current window scroll position which often causes offsets in html2canvas
-              scrollY: -window.scrollY,
-              scrollX: -window.scrollX,
-              onclone: (clonedDoc) => {
-                const style = clonedDoc.createElement('style');
-                style.innerHTML = `
-                  * {
-                    transition: none !important;
-                    transform: none !important;
-                    animation: none !important;
-                    text-rendering: auto !important;
-                    letter-spacing: normal !important;
-                    box-sizing: border-box !important;
-                  }
-                  
-                  /* Ensure the card being captured is clean of any hover states or shadows that might offset it */
-                  [data-item-id='${item.id}'] {
-                    transform: none !important;
-                    box-shadow: none !important;
-                    margin: 0 !important;
-                    position: relative !important;
-                    top: 0 !important;
-                    left: 0 !important;
-                  }
-
-                  /* Fix for Badge component and flex containers */
-                  .inline-flex, .flex {
-                    display: flex !important;
-                    align-items: center !important;
-                  }
-
-                  p, h1, h2, h3, h4, h5, h6, span, div {
-                    line-height: 1.4 !important;
-                  }
-
-                  /* Ensure images don't cause layout shifts */
-                  img {
-                    display: block !important;
-                  }
-                `;
-                clonedDoc.head.appendChild(style);
-
-                const clonedCard = clonedDoc.querySelector(`[data-item-id='${item.id}']`) as HTMLElement;
-                if (clonedCard) {
-                  clonedCard.style.transform = 'none';
-                  clonedCard.style.transition = 'none';
-                }
-
-                clonedDoc
-                  .querySelectorAll('img[data-ai-hint~="cartridge"]')
-                  .forEach((img) => {
-                    const image = img as HTMLImageElement;
-                    image.style.height = "auto";
-                    image.style.width = "auto";
-                    image.style.objectFit = "contain";
-                  });
-              },
+            const rect = cardElement.getBoundingClientRect();
+            const container = document.createElement("div");
+            
+            // Setup isolated container
+            Object.assign(container.style, {
+              position: "fixed",
+              top: "-10000px",
+              left: "-10000px",
+              width: `${rect.width}px`,
+              height: `${rect.height}px`,
+              backgroundColor: "#ffffff", // Ensure white background
+              zIndex: "-9999",
             });
-            const blob = await new Promise<Blob | null>((resolve) =>
-              canvas.toBlob(resolve, "image/png")
-            );
-            if (blob) {
-              zip.file(`${item.brand}-${item.model}-${item.color}.png`, blob);
+
+            // Clone the card
+            const clone = cardElement.cloneNode(true) as HTMLElement;
+            
+            // Reset styles on the clone to ensure it fits the container perfectly
+            clone.style.transform = "none";
+            clone.style.transition = "none";
+            clone.style.boxShadow = "none";
+            clone.style.margin = "0";
+            clone.style.width = "100%";
+            clone.style.height = "100%";
+            
+            container.appendChild(clone);
+            document.body.appendChild(container);
+
+            try {
+              // Wait for images in the original element to be ready (which populates cache)
+              await waitForImages(cardElement);
+
+              const canvas = await html2canvas(container, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+                backgroundColor: null,
+                onclone: (clonedDoc) => {
+                  const style = clonedDoc.createElement('style');
+                  style.innerHTML = `
+                    * {
+                      transition: none !important;
+                      transform: none !important;
+                      animation: none !important;
+                      text-rendering: optimizeLegibility !important;
+                      -webkit-font-smoothing: antialiased !important;
+                      box-sizing: border-box !important;
+                    }
+                    
+                    /* Enforce Flexbox behavior to prevent alignment shifts */
+                    .flex { display: flex !important; }
+                    .inline-flex { display: inline-flex !important; }
+                    .items-center { align-items: center !important; }
+                    .justify-center { justify-content: center !important; }
+                    
+                    /* Normalize text alignment */
+                    p, h1, h2, h3, h4, h5, h6, span, div {
+                      line-height: normal !important; 
+                      letter-spacing: normal !important;
+                    }
+                    
+                    /* Ensure Badge centering */
+                    .badge, [class*="badge"] {
+                      display: inline-flex !important;
+                      align-items: center !important;
+                      vertical-align: middle !important;
+                    }
+
+                    img {
+                      display: block !important;
+                      max-width: 100% !important;
+                    }
+                  `;
+                  clonedDoc.head.appendChild(style);
+                  
+                  // Double-check image styling in clone
+                  clonedDoc
+                    .querySelectorAll('img[data-ai-hint~="cartridge"]')
+                    .forEach((img) => {
+                      const image = img as HTMLImageElement;
+                      image.style.height = "auto";
+                      image.style.width = "auto";
+                      image.style.objectFit = "contain";
+                    });
+                },
+              });
+
+              const blob = await new Promise<Blob | null>((resolve) =>
+                canvas.toBlob(resolve, "image/png")
+              );
+              if (blob) {
+                zip.file(`${item.brand}-${item.model}-${item.color}.png`, blob);
+              }
+            } finally {
+              // Clean up the temporary container
+              if (document.body.contains(container)) {
+                document.body.removeChild(container);
+              }
             }
           }
         }));
