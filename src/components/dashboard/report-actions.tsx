@@ -83,12 +83,16 @@ export default function ReportActions({
     toast({ description: t("Generating image...") });
 
     try {
+      if (document.fonts) {
+        await document.fonts.ready;
+      }
       await waitForImages(reportRef.current);
       
       const canvas = await html2canvas(reportRef.current, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
+        backgroundColor: null,
         onclone: (clonedDoc) => { 
           const style = clonedDoc.createElement('style');
           style.innerHTML = `
@@ -96,7 +100,12 @@ export default function ReportActions({
               transition: none !important;
               transform: none !important;
               animation: none !important;
-              text-rendering: initial !important;
+              text-rendering: auto !important;
+              letter-spacing: normal !important;
+            }
+            img {
+              display: block;
+              max-width: 100%;
             }
           `;
           clonedDoc.head.appendChild(style);
@@ -130,6 +139,10 @@ export default function ReportActions({
     toast({ description: t("Generating ZIP file... This may take a moment.") });
 
     try {
+      if (document.fonts) {
+        await document.fonts.ready;
+      }
+      
       const zip = new JSZip();
       const itemsWithImages = data.filter((item) => item.imageUrl);
       
@@ -143,11 +156,16 @@ export default function ReportActions({
           
           if (cardElement) {
             await waitForImages(cardElement);
+            
+            const rect = cardElement.getBoundingClientRect();
             const canvas = await html2canvas(cardElement, {
               scale: 2,
               useCORS: true,
               allowTaint: true,
-              logging: false, // Disable logging for performance
+              logging: false,
+              backgroundColor: null,
+              width: rect.width,
+              height: rect.height,
               onclone: (clonedDoc) => {
                 const style = clonedDoc.createElement('style');
                 style.innerHTML = `
@@ -155,7 +173,18 @@ export default function ReportActions({
                     transition: none !important;
                     transform: none !important;
                     animation: none !important;
-                    text-rendering: initial !important;
+                    text-rendering: auto !important;
+                    letter-spacing: normal !important;
+                  }
+                  /* Force line-height to fix vertical alignment issues in html2canvas */
+                  p, h1, h2, h3, h4, h5, h6, span, div {
+                    line-height: 1.2 !important;
+                  }
+                  /* Fix for Badge component vertical centering */
+                  .inline-flex.items-center {
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
                   }
                 `;
                 clonedDoc.head.appendChild(style);
@@ -197,12 +226,16 @@ export default function ReportActions({
     toast({ description: t("Generating PDF...") });
 
     try {
+      if (document.fonts) {
+        await document.fonts.ready;
+      }
       await waitForImages(reportRef.current);
 
       const canvas = await html2canvas(reportRef.current, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
+        backgroundColor: null,
         onclone: (clonedDoc) => {
           const style = clonedDoc.createElement('style');
           style.innerHTML = `
@@ -210,7 +243,8 @@ export default function ReportActions({
               transition: none !important;
               transform: none !important;
               animation: none !important;
-              text-rendering: initial !important;
+              text-rendering: auto !important;
+              letter-spacing: normal !important;
             }
           `;
           clonedDoc.head.appendChild(style);
