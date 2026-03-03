@@ -157,15 +157,15 @@ export default function ReportActions({
           if (cardElement) {
             await waitForImages(cardElement);
             
-            const rect = cardElement.getBoundingClientRect();
             const canvas = await html2canvas(cardElement, {
               scale: 2,
               useCORS: true,
               allowTaint: true,
               logging: false,
               backgroundColor: null,
-              width: rect.width,
-              height: rect.height,
+              // Corrects for the current window scroll position which often causes offsets in html2canvas
+              scrollY: -window.scrollY,
+              scrollX: -window.scrollX,
               onclone: (clonedDoc) => {
                 const style = clonedDoc.createElement('style');
                 style.innerHTML = `
@@ -175,19 +175,41 @@ export default function ReportActions({
                     animation: none !important;
                     text-rendering: auto !important;
                     letter-spacing: normal !important;
+                    box-sizing: border-box !important;
                   }
-                  /* Force line-height to fix vertical alignment issues in html2canvas */
-                  p, h1, h2, h3, h4, h5, h6, span, div {
-                    line-height: 1.2 !important;
+                  
+                  /* Ensure the card being captured is clean of any hover states or shadows that might offset it */
+                  [data-item-id='${item.id}'] {
+                    transform: none !important;
+                    box-shadow: none !important;
+                    margin: 0 !important;
+                    position: relative !important;
+                    top: 0 !important;
+                    left: 0 !important;
                   }
-                  /* Fix for Badge component vertical centering */
-                  .inline-flex.items-center {
-                    display: inline-flex !important;
+
+                  /* Fix for Badge component and flex containers */
+                  .inline-flex, .flex {
+                    display: flex !important;
                     align-items: center !important;
-                    justify-content: center !important;
+                  }
+
+                  p, h1, h2, h3, h4, h5, h6, span, div {
+                    line-height: 1.4 !important;
+                  }
+
+                  /* Ensure images don't cause layout shifts */
+                  img {
+                    display: block !important;
                   }
                 `;
                 clonedDoc.head.appendChild(style);
+
+                const clonedCard = clonedDoc.querySelector(`[data-item-id='${item.id}']`) as HTMLElement;
+                if (clonedCard) {
+                  clonedCard.style.transform = 'none';
+                  clonedCard.style.transition = 'none';
+                }
 
                 clonedDoc
                   .querySelectorAll('img[data-ai-hint~="cartridge"]')
